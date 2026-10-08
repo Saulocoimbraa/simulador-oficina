@@ -10,78 +10,98 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     /* =========================================================
-       TOKENS & RESET (Estilo para Apresentação em Tela Cheia)
+       SWISS TECH / EDITORIAL ANALYTIC SYSTEM (SHARP 0PX EDGES)
        ========================================================= */
     :root {
-      --bg-body: #f8fafc;
-      --bg-sidebar: #ffffff;
+      --bg-base: #fafaf9;
+      --bg-body: #fafaf9;
+      --bg-sidebar: #fcfcfd;
+      --surface-canvas: #fcfcfd;
+      --surface-card: #ffffff;
+      --surface-subtle: #f4f4f5;
+      --surface-muted: #e4e4e7;
       --bg-card: #ffffff;
-      --bg-card-alt: #f1f5f9;
-      --bg-input: #f8fafc;
-      --border: #cbd5e1;
-      --border-focus: #4f46e5;
+      --bg-card-alt: #f4f4f5;
+      --bg-input: #ffffff;
 
-      --text-main: #090d16;
-      --text-muted: #64748b;
-      --text-secondary: #334155;
+      --border: #e4e4e7;
+      --border-subtle: #ebebeb;
+      --border-line: #e4e4e7;
+      --border-dark: #71717a;
+      --border-bold: #18181b;
+      --border-focus: #18181b;
 
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-glow: rgba(79, 70, 229, 0.12);
+      --text-main: #09090b;
+      --text-black: #09090b;
+      --text-body: #27272a;
+      --text-secondary: #27272a;
+      --text-muted: #71717a;
+      --text-dim: #a1a1aa;
+
+      --primary: #18181b;
+      --primary-hover: #27272a;
+      --primary-glow: transparent;
 
       --friendly: #059669;
-      --friendly-bg: rgba(5,150,105,0.08);
-      --friendly-border: rgba(5,150,105,0.3);
+      --friendly-bg: #ecfdf5;
+      --friendly-border: #a7f3d0;
 
       --toxic: #dc2626;
-      --toxic-bg: rgba(220,38,38,0.08);
-      --toxic-border: rgba(220,38,38,0.3);
+      --toxic-bg: #fef2f2;
+      --toxic-border: #fecaca;
 
       --neutral: #d97706;
-      --neutral-bg: rgba(217,119,6,0.08);
-      --neutral-border: rgba(217,119,6,0.3);
+      --neutral-bg: #fffbeb;
+      --neutral-border: #fde68a;
 
-      --font: 'Inter', -apple-system, sans-serif;
+      --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
       --mono: 'JetBrains Mono', monospace;
-
-      --r-sm: 8px;
-      --r-md: 12px;
-      --r-lg: 18px;
-      --r-xl: 24px;
-      --r-full: 9999px;
-
-      --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.05);
-      --shadow-glow: 0 0 0 4px var(--primary-glow);
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+      /* Strict Swiss geometric design */
+    }
 
     body {
       font-family: var(--font);
-      background: var(--bg-body);
-      color: var(--text-main);
+      background-color: var(--bg-body);
+      color: var(--text-body);
       min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
 
     .app-shell {
-      display: flex;
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
       min-height: 100vh;
+      max-width: 1680px;
+      margin: 0 auto;
+      background: var(--surface-card);
+      border-left: 1px solid var(--border-line);
+      border-right: 1px solid var(--border-line);
     }
 
-    /* ---- SIDEBAR ---- */
+    /* ---- SIDEBAR (INDEX & CONTROLS) ---- */
     .sidebar {
-      width: 300px;
-      min-width: 300px;
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
+      width: 290px;
+      min-width: 290px;
+      background: var(--surface-canvas);
+      border-right: 1px solid var(--border-line);
       display: flex;
       flex-direction: column;
       position: sticky;
@@ -96,409 +116,1115 @@
       display: flex;
       align-items: center;
       gap: 0.85rem;
-      padding: 0 0.5rem;
-      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-line);
+      margin-bottom: 1.75rem;
     }
 
     .logo-orb {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--r-md);
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      width: 38px;
+      height: 38px;
+      background: var(--text-black);
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 6px 16px rgba(79,70,229,0.3);
+      border: 1px solid var(--text-black);
+      box-shadow: none;
     }
-    .logo-orb svg { width: 26px; height: 26px; color: #fff; }
 
-    .logo-text .brand { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
-    .logo-text .sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .logo-orb svg {
+      width: 20px;
+      height: 20px;
+      color: #ffffff;
+    }
 
-    .sidebar-section-label {
-      font-size: 0.72rem;
+    .logo-text .brand {
+      font-size: 0.95rem;
       font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-black);
+      line-height: 1.2;
+    }
+
+    .logo-text .sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
       text-transform: uppercase;
       letter-spacing: 0.1em;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .logo-text .sub::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background: var(--friendly);
+    }
+
+    .sidebar-section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
       color: var(--text-muted);
-      padding: 0 0.6rem;
-      margin: 1.2rem 0 0.5rem;
+      padding: 0.4rem 0.25rem;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border-line);
+      margin-left: 0.75rem;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 0.85rem;
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all 0.18s;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      user-select: none;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      margin-bottom: 0.3rem;
+      background: transparent;
       border: 1px solid transparent;
-      margin-bottom: 0.25rem;
+      color: var(--text-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+      position: relative;
     }
-    .nav-item:hover { background: var(--bg-card-alt); color: var(--text-main); border-color: var(--border); }
-    .nav-item.active { background: var(--primary-glow); color: var(--primary); border-color: var(--border-focus); font-weight: 700; }
 
-    .nav-item .nav-icon { font-size: 1.15rem; width: 24px; text-align: center; flex-shrink: 0; }
+    .nav-item:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-line);
+      color: var(--text-black);
+    }
 
-    .type-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .type-dot.friendly { background: var(--friendly); }
-    .type-dot.toxic { background: var(--toxic); }
-    .type-dot.neutral { background: var(--neutral); }
+    .nav-item.active {
+      background: #ffffff;
+      color: var(--text-black);
+      border: 1px solid var(--border-line);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      font-weight: 700;
+    }
+
+    .nav-item.active::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      bottom: -1px;
+      width: 3px;
+      background: var(--text-black);
+    }
+
+    .nav-item .nav-icon {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+      color: var(--text-dim);
+    }
+
+    .type-dot {
+      width: 6px;
+      height: 6px;
+      flex-shrink: 0;
+    }
+
+    .type-dot.friendly {
+      background: var(--friendly);
+    }
+
+    .type-dot.toxic {
+      background: var(--toxic);
+    }
+
+    .type-dot.neutral {
+      background: var(--neutral);
+    }
 
     .nav-badge {
       margin-left: auto;
-      font-size: 0.75rem;
       font-family: var(--mono);
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: var(--r-full);
-      background: var(--bg-card-alt);
+      font-size: 0.7rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-line);
+      padding: 0.15rem 0.4rem;
       color: var(--text-muted);
+      font-weight: 600;
+      min-width: 32px;
+      text-align: right;
     }
-    .nav-item.active .nav-badge { background: var(--primary); color: #fff; }
+
+    .nav-item.active .nav-badge {
+      background: var(--text-black);
+      color: #ffffff;
+      border-color: var(--text-black);
+    }
 
     .sidebar-actions {
       margin-top: auto;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-line);
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
 
     .sidebar-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 0.65rem 0.85rem;
-      border-radius: var(--r-md);
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-secondary);
-      font-family: var(--font);
-      font-size: 0.85rem;
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      color: var(--text-black);
+      font-family: var(--mono);
+      font-size: 0.72rem;
       font-weight: 600;
+      letter-spacing: 0.02em;
       cursor: pointer;
-      transition: all 0.18s;
-    }
-    .sidebar-btn:hover { background: var(--bg-card-alt); color: var(--text-main); border-color: var(--text-muted); }
-    .sidebar-btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
-    .sidebar-btn.primary:hover { background: var(--primary-hover); }
-
-    /* ---- MAIN CONTENT ---- */
-    .main-content { flex: 1; overflow-x: hidden; min-width: 0; display: flex; flex-direction: column; }
-
-    .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.25rem 2.5rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-sidebar);
+      transition: all 0.15s;
+      text-align: left;
+    }
+
+    .sidebar-btn:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-dark);
+      color: var(--text-black);
+    }
+
+    .sidebar-btn.primary {
+      background: var(--text-black);
+      border-color: var(--text-black);
+      color: #ffffff;
+    }
+
+    .sidebar-btn.primary:hover {
+      background: #27272a;
+    }
+
+    /* ---- MAIN CONTENT & TOPBAR ---- */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
       position: sticky;
       top: 0;
-      z-index: 90;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      z-index: 40;
+      border-bottom: 1px solid var(--border-line);
+      padding: 1.25rem 2.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: none;
       gap: 1rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
-    .topbar-title { font-size: 1.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em; }
-    .topbar-sub { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; margin-top: 0.1rem; }
-    .topbar-pills { display: flex; align-items: center; gap: 0.6rem; }
+
+    .topbar-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-black);
+    }
+
+    .topbar-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+      font-weight: 500;
+    }
+
+    .topbar-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
 
     .pill {
-      font-size: 0.78rem; font-weight: 700;
-      padding: 0.3rem 0.85rem;
-      border-radius: var(--r-full); border: 1px solid;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.65rem;
+      border: 1px solid var(--border-line);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .pill.friendly { color: var(--friendly); border-color: var(--friendly-border); background: var(--friendly-bg); }
-    .pill.toxic { color: var(--toxic); border-color: var(--toxic-border); background: var(--toxic-bg); }
-    .pill.neutral { color: var(--neutral); border-color: var(--neutral-border); background: var(--neutral-bg); }
 
-    .page { display: none; padding: 2.5rem; animation: fadeIn 0.25s ease; max-width: 1400px; margin: 0 auto; width: 100%; }
-    .page.active { display: block; }
+    .pill.friendly {
+      color: var(--friendly);
+      border-color: var(--friendly-border);
+      background: var(--friendly-bg);
+    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .pill.toxic {
+      color: var(--toxic);
+      border-color: var(--toxic-border);
+      background: var(--toxic-bg);
+    }
+
+    .pill.neutral {
+      color: var(--neutral);
+      border-color: var(--neutral-border);
+      background: var(--neutral-bg);
+    }
+
+    .page {
+      display: none;
+      padding: 2.25rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      animation: feedSlide 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes feedSlide {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .page-header-intro {
       margin-bottom: 2rem;
     }
-    .page-title-main { font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.4rem; letter-spacing: -0.02em; }
-    .page-subtitle { color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; max-width: 900px; }
+
+    .page-title-main {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-black);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      max-width: 900px;
+    }
 
     /* =========================================================
-       POST PAGES
+       EDITORIAL SOCIAL CARD / POST HERO
        ========================================================= */
     .post-hero {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-xl); padding: 2rem; margin-bottom: 1.75rem;
-      display: flex; align-items: flex-start; justify-content: space-between;
-      gap: 1.5rem; flex-wrap: wrap; box-shadow: var(--shadow-card);
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      position: relative;
     }
-    .post-hero.friendly { border-left: 6px solid var(--friendly); }
-    .post-hero.toxic    { border-left: 6px solid var(--toxic); }
-    .post-hero.neutral  { border-left: 6px solid var(--neutral); }
 
-    .post-hero-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-main); }
-    .post-hero-author { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600; }
-    .post-hero-desc { font-size: 1rem; color: var(--text-secondary); max-width: 650px; line-height: 1.6; }
+    .post-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
 
-    .post-hero-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
+    .post-hero.friendly {
+      border-left: 1px solid var(--border-line);
+    }
+
+    .post-hero.friendly::before {
+      background: var(--friendly);
+    }
+
+    .post-hero.toxic {
+      border-left: 1px solid var(--border-line);
+    }
+
+    .post-hero.toxic::before {
+      background: var(--toxic);
+    }
+
+    .post-hero.neutral {
+      border-left: 1px solid var(--border-line);
+    }
+
+    .post-hero.neutral::before {
+      background: var(--neutral);
+    }
+
+    .post-hero-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-black);
+      line-height: 1.25;
+      margin-bottom: 0.4rem;
+    }
+
+    .post-hero-author {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .post-hero-desc {
+      font-size: 0.98rem;
+      color: var(--text-body);
+      max-width: 420px;
+      line-height: 1.65;
+    }
+
+    .post-hero-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
 
     .result-badge {
-      font-family: var(--mono); font-size: 1.35rem; font-weight: 800;
-      padding: 0.5rem 1.25rem; border-radius: var(--r-full);
-      background: var(--primary-glow); color: var(--primary);
-      border: 1px solid var(--border-focus); white-space: nowrap;
-    }
-    .reach-badge {
-      font-family: var(--mono); font-size: 0.95rem; font-weight: 700;
-      padding: 0.4rem 1rem; border-radius: var(--r-full);
-      background: var(--bg-card-alt); color: var(--text-secondary); border: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--text-black);
+      background: #ffffff;
+      color: var(--text-black);
+      white-space: nowrap;
     }
 
-    .inputs-section { margin-bottom: 1.75rem; }
-    .inputs-section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 800; }
+    .reach-badge {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--text-black);
+      background: var(--text-black);
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    /* ---- INTERACTION CONTROLS GRID ---- */
+    .inputs-section {
+      margin-bottom: 1.75rem;
+    }
+
+    .inputs-section h3 {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
 
     .inputs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .inputs-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .input-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow-card);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-line);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      box-shadow: none;
+      transition: border-color 0.15s;
     }
-    .input-card:focus-within { border-color: var(--border-focus); box-shadow: var(--shadow-glow); }
+
+    .input-card:focus-within {
+      border-color: var(--text-black);
+      box-shadow: none;
+    }
 
     .input-card-header {
-      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0;
     }
-    .input-card-label { font-size: 1rem; font-weight: 700; color: var(--text-secondary); }
-    .input-weight-tag {
-      font-family: var(--mono); font-size: 0.75rem; font-weight: 800;
-      padding: 0.2rem 0.6rem; border-radius: var(--r-full);
-    }
-    .input-weight-tag.like    { background: rgba(244,114,182,0.15); color: #db2777; }
-    .input-weight-tag.comment { background: var(--primary-glow); color: var(--primary); }
-    .input-weight-tag.share   { background: rgba(245,158,11,0.15); color: var(--neutral); }
 
-    .input-controls { display: flex; align-items: center; gap: 0.6rem; }
+    .input-card-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-black);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    .input-weight-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border-line);
+      padding: 0.15rem 0.45rem;
+      background: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .input-weight-tag.like {
+      color: var(--toxic);
+    }
+
+    .input-weight-tag.comment {
+      color: var(--text-black);
+    }
+
+    .input-weight-tag.share {
+      color: var(--neutral);
+    }
+
+    .input-controls {
+      display: flex;
+      align-items: stretch;
+      gap: 0.25rem;
+      width: 100%;
+    }
 
     .step-btn {
-      background: var(--bg-card-alt); border: 1px solid var(--border);
-      color: var(--text-secondary); font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
-      padding: 0.5rem 0.75rem; border-radius: var(--r-sm); cursor: pointer;
-      transition: all 0.15s; white-space: nowrap;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      color: var(--text-black);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      height: 36px;
+      padding: 0 0.65rem;
+      cursor: pointer;
+      transition: all 0.12s;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
-    .step-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    .step-btn:hover {
+      background: var(--text-black);
+      color: #ffffff;
+      border-color: var(--text-black);
+    }
+
+    .step-btn:active {
+      transform: translateY(1px);
+    }
 
     .num-input {
-      width: 80px; background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: var(--r-sm); color: var(--text-main);
-      font-family: var(--mono); font-size: 1.15rem; font-weight: 800;
-      text-align: center; padding: 0.45rem 0.25rem; transition: border-color 0.2s;
+      flex: 1;
+      min-width: 0;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      color: var(--text-black);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0 0.25rem;
     }
-    .num-input:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--primary-glow); }
+
+    .num-input:focus {
+      outline: none;
+      border-color: var(--text-black);
+      background: #ffffff;
+      box-shadow: none;
+    }
+
     .num-input::-webkit-inner-spin-button,
-    .num-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-    .results-strip {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-card);
+    .num-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
-    .results-strip-top {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;
-    }
-    .formula-display {
-      font-family: var(--mono); font-size: 0.95rem; color: var(--text-secondary);
-      background: var(--bg-card-alt); padding: 0.75rem 1.1rem;
-      border-radius: var(--r-md); border: 1px solid var(--border);
-    }
-    .formula-display strong { color: var(--text-main); }
-    .reach-calc-line { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.6rem; }
-    .reach-calc-line strong { color: var(--text-secondary); font-family: var(--mono); }
 
-    .bar-track { height: 12px; background: var(--bg-card-alt); border-radius: var(--r-full); overflow: hidden; margin-bottom: 0.5rem; border: 1px solid var(--border); }
-    .bar-fill {
-      height: 100%; border-radius: var(--r-full);
-      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-      background: linear-gradient(90deg, var(--primary), #7c3aed);
+    .num-input[type=number] {
+      -moz-appearance: textfield;
     }
-    .bar-fill.friendly { background: linear-gradient(90deg, #059669, #34d399); }
-    .bar-fill.toxic    { background: linear-gradient(90deg, #dc2626, #f87171); }
-    .bar-fill.neutral  { background: linear-gradient(90deg, #d97706, #fbbf24); }
 
-    .bar-pct { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); text-align: right; font-weight: 600; }
-
+    /* ---- RETENTION BOX / FACTOR INFO ---- */
     .factor-info {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 1.5rem; box-shadow: var(--shadow-card);
+      background: #fbfbfc;
+      border: 1px solid var(--border-line);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.75rem;
+      border-left: 3px solid var(--border-dark);
+      box-shadow: none;
     }
-    .factor-info h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.85rem; font-weight: 800; }
+
+    .factor-info h3 {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
 
     .factor-pill {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: var(--mono); font-size: 1.1rem; font-weight: 800;
-      padding: 0.4rem 1rem; border-radius: var(--r-full); border: 1px solid;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border-line);
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .factor-pill.friendly { color: var(--friendly); border-color: var(--friendly-border); background: var(--friendly-bg); }
-    .factor-pill.toxic    { color: var(--toxic); border-color: var(--toxic-border); background: var(--toxic-bg); }
-    .factor-pill.neutral  { color: var(--neutral); border-color: var(--neutral-border); background: var(--neutral-bg); }
 
-    .factor-desc { font-size: 0.95rem; color: var(--text-secondary); margin-top: 1rem; line-height: 1.65; }
+    .factor-pill.friendly {
+      background: var(--friendly-bg);
+      color: var(--friendly);
+      border-color: var(--friendly-border);
+    }
+
+    .factor-pill.toxic {
+      background: var(--toxic-bg);
+      color: var(--toxic);
+      border-color: var(--toxic-border);
+    }
+
+    .factor-pill.neutral {
+      background: var(--neutral-bg);
+      color: var(--neutral);
+      border-color: var(--neutral-border);
+    }
+
+    .factor-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-top: 0.6rem;
+    }
+
+    /* ---- RESULTS STRIP / MATHEMATICAL CONSOLE ---- */
+    .results-strip {
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .results-strip-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .formula-display {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text-body);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-line);
+      padding: 0.75rem 1rem;
+      line-height: 1.6;
+      word-break: break-word;
+      margin-bottom: 0.5rem;
+    }
+
+    .formula-display strong {
+      color: var(--text-black);
+      font-weight: 700;
+    }
+
+    .reach-calc-line {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+
+    .reach-calc-line strong {
+      color: var(--text-black);
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 8px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border-line);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--text-black);
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bar-fill.friendly {
+      background: var(--friendly);
+    }
+
+    .bar-fill.toxic {
+      background: var(--toxic);
+    }
+
+    .bar-fill.neutral {
+      background: var(--neutral);
+    }
+
+    .bar-pct {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      text-align: right;
+    }
 
     /* =========================================================
-       FORMULA PAGE
+       FORMULA PAGE (THEORY & MANIFESTO)
        ========================================================= */
     .weights-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem; margin-bottom: 2rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
+
+    @media (max-width: 860px) {
+      .weights-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .weight-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 1.5rem 1.75rem;
-      display: flex; flex-direction: column; gap: 0.6rem;
-      box-shadow: var(--shadow-card);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.15s;
     }
-    .weight-card:hover { border-color: var(--border-focus); box-shadow: var(--shadow-glow); }
-    .wc-emoji { font-size: 2.25rem; }
-    .wc-name { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .wc-pts { font-family: var(--mono); font-size: 1.85rem; font-weight: 800; }
-    .wc-pts.like-pts { color: #db2777; }
-    .wc-pts.comment-pts { color: var(--primary); }
-    .wc-pts.share-pts { color: var(--neutral); }
-    .wc-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
 
-    .formula-box {
-      background: var(--bg-card); border: 1px solid var(--border-focus);
-      border-radius: var(--r-xl); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-card);
+    .weight-card:hover {
+      border-color: var(--border-dark);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
-    .formula-box h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem; font-weight: 800; }
-    .formula-line {
-      font-family: var(--mono); font-size: 1.1rem; color: var(--text-main);
-      background: var(--bg-card-alt); padding: 1rem 1.25rem;
-      border-radius: var(--r-md); border: 1px solid var(--border); margin-bottom: 0.85rem;
-    }
-    .formula-line span { color: var(--primary); font-weight: 800; }
 
-    /* Caixa específica sobre o Fator de Alcance e Tempo de Tela */
+    .wc-emoji {
+      font-size: 1.5rem;
+    }
+
+    .wc-name {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-black);
+    }
+
+    .wc-pts {
+      font-family: var(--mono);
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0.2rem 0;
+    }
+
+    .wc-pts.like-pts {
+      color: var(--toxic);
+    }
+
+    .wc-pts.comment-pts {
+      color: var(--text-black);
+    }
+
+    .wc-pts.share-pts {
+      color: var(--neutral);
+    }
+
+    .wc-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
     .factor-explanation-box {
-      background: linear-gradient(135deg, #eef2ff, #f3e8ff);
-      border: 1px solid #c7d2fe;
-      border-left: 6px solid var(--primary);
-      border-radius: var(--r-xl);
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-card);
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--text-black);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
+
     .factor-explanation-box h3 {
       font-size: 1.15rem;
       font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+      color: var(--text-black);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
+
     .factor-explanation-box p {
-      font-size: 0.98rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.65;
       margin-bottom: 1rem;
     }
+
     .factor-explanation-box ul {
       margin-left: 1.25rem;
       margin-top: 0.5rem;
       margin-bottom: 1rem;
-      color: var(--text-secondary);
+      color: var(--text-body);
+      font-size: 0.88rem;
+      line-height: 1.7;
     }
+
     .factor-explanation-box li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .formula-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .formula-box h3 {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .formula-line {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--text-body);
+      background: var(--surface-subtle);
+      padding: 0.85rem 1.15rem;
+      border: 1px solid var(--border-line);
+      margin-bottom: 0.75rem;
       line-height: 1.6;
     }
 
-    .insight-box {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-left: 6px solid var(--primary); border-radius: var(--r-lg);
-      padding: 1.5rem 1.75rem; font-size: 0.98rem; color: var(--text-secondary); line-height: 1.7;
-      box-shadow: var(--shadow-card);
+    .formula-line span {
+      color: var(--text-black);
+      font-weight: 700;
     }
-    .insight-box strong { color: var(--text-main); }
+
+    .insight-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--text-black);
+      padding: 1.25rem 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-body);
+      line-height: 1.65;
+      box-shadow: none;
+    }
+
+    .insight-box strong {
+      color: var(--text-black);
+    }
 
     /* =========================================================
-       CHARTS PAGE
+       CHARTS PAGE (DASHBOARD & COMPARISONS)
        ========================================================= */
-    .charts-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; margin-bottom: 2rem;
+    .highlight-banner {
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--text-black);
+      padding: 1.15rem 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-body);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
-    @media (max-width: 1000px) { .charts-grid { grid-template-columns: 1fr; } }
 
-    .chart-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-xl); padding: 1.75rem; box-shadow: var(--shadow-card);
+    .highlight-banner strong {
+      color: var(--text-black);
     }
-    .chart-card.wide { grid-column: 1 / -1; }
-    .chart-card h3 { font-size: 1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem; }
-    .chart-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-
-    .chart-wrap { position: relative; width: 100%; }
-
-    .ranking-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.75rem; }
-    .ranking-item { display: flex; align-items: center; gap: 1rem; }
-    .ranking-idx { font-family: var(--mono); font-size: 0.9rem; font-weight: 800; color: var(--text-muted); width: 24px; text-align: center; flex-shrink: 0; }
-    .ranking-bar-wrap { flex: 1; }
-    .ranking-label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem; }
-    .ranking-label .rval { font-family: var(--mono); font-weight: 800; color: var(--text-main); }
 
     .summary-stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
+
+    @media (max-width: 900px) {
+      .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .summary-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .stat-kpi {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 1.5rem; transition: border-color 0.2s; box-shadow: var(--shadow-card);
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      padding: 1.25rem 1.5rem;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.15s;
     }
-    .stat-kpi:hover { border-color: var(--border-focus); }
-    .kpi-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 800; }
-    .kpi-value { font-family: var(--mono); font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
-    .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; font-weight: 500; }
 
-    .highlight-banner {
-      background: var(--primary-glow); border: 1px solid var(--border-focus);
-      border-radius: var(--r-lg); padding: 1.25rem 1.5rem;
-      font-size: 0.98rem; color: var(--text-secondary); margin-bottom: 2rem; box-shadow: var(--shadow-card);
+    .stat-kpi:hover {
+      border-color: var(--border-dark);
     }
-    .highlight-banner strong { color: var(--text-main); }
 
-    /* Toast e Scrollbar */
+    .kpi-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+
+    .kpi-value {
+      font-family: var(--mono);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-black);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-top: 0.25rem;
+    }
+
+    .kpi-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 1000px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-line);
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .chart-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    .chart-card h3 {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-black);
+      margin-bottom: 0.25rem;
+    }
+
+    .chart-card p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+    }
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+    }
+
+    .ranking-idx {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .ranking-bar-wrap {
+      flex: 1;
+    }
+
+    .ranking-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-body);
+      margin-bottom: 0.4rem;
+    }
+
+    .ranking-label .rval {
+      font-family: var(--mono);
+      font-weight: 700;
+      color: var(--text-black);
+      font-size: 0.78rem;
+    }
+
+    .ranking-item .bar-track {
+      height: 4px;
+      margin-bottom: 0;
+    }
+
+    /* ---- TOAST & SCROLLBAR ---- */
     .toast {
-      position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--text-main); color: #ffffff; padding: 1rem 1.5rem;
-      border-radius: var(--r-lg); font-size: 0.95rem; font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 999;
-      transform: translateY(0); opacity: 1; transition: all 0.3s;
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--text-black);
+      color: #ffffff;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid var(--text-black);
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(0);
+      opacity: 1;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .toast.hidden { opacity: 0; transform: translateY(12px); pointer-events: none; }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    .toast.hidden {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surface-subtle);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-line);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--border-dark);
+    }
+
+    @media (max-width: 860px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+        border: none;
+      }
+
+      .sidebar {
+        width: 100%;
+        min-width: 100%;
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-line);
+      }
+    }
   </style>
 </head>
 
@@ -509,9 +1235,13 @@
     <nav class="sidebar" id="sidebar">
       <div class="sidebar-logo">
         <div class="logo-orb">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
           </svg>
         </div>
         <div class="logo-text">
@@ -560,8 +1290,8 @@
       </div>
 
       <div class="sidebar-actions">
-        <button class="sidebar-btn primary" onclick="loadFromFeed(true)">&#x1F4E5; Sincronizar Feed</button>
-        <button class="sidebar-btn" onclick="setPolarizationScenario()">&#x1F3B2; Cenário de Polarização</button>
+        <button class="sidebar-btn primary" onclick="setPolarizationScenario()">&#x1F3B2; Cenário de
+          Polarização</button>
         <button class="sidebar-btn" onclick="setEqualActionsScenario()">&#x2696;&#xFE0F; Teste com Ações Iguais</button>
         <button class="sidebar-btn" onclick="resetAll()">&#x1F504; Reiniciar Dados</button>
       </div>
@@ -585,13 +1315,15 @@
       <div class="page active" id="page-post1">
         <div class="page-header-intro">
           <h2 class="page-title-main">Coleta de Engajamento: Postagem 1</h2>
-          <p class="page-subtitle">Insira ou verifique abaixo o volume de interações recebidas por esta publicação para calcular seu impacto em tempo real.</p>
+          <p class="page-subtitle">Insira ou verifique abaixo o volume de interações recebidas por esta publicação para
+            calcular seu impacto em tempo real.</p>
         </div>
         <div class="post-hero friendly">
           <div>
             <div class="post-hero-title">Gincana Cultural da Escola</div>
             <div class="post-hero-author">&#x1F464; Autor: Lucas Gabriel (9º Ano B)</div>
-            <div class="post-hero-desc">Publicação de caráter colaborativo voltada para a união das turmas na montagem de murais e atividades recreativas.</div>
+            <div class="post-hero-desc">Publicação de caráter colaborativo voltada para a união das turmas na montagem
+              de murais e atividades recreativas.</div>
           </div>
           <div class="post-hero-stats">
             <span class="result-badge" id="scorePill-1">0 pts</span>
@@ -602,20 +1334,24 @@
           <h3>Registro de Interações</h3>
           <div class="inputs-grid" id="inputs-1"></div>
         </div>
-        <div class="results-strip">
-          <div class="results-strip-top">
-            <div>
-              <div class="formula-display" id="mathFormula-1">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
-              <div class="reach-calc-line" id="reachCalcStep-1">Alcance Estimado: <strong>0 pessoas</strong></div>
-            </div>
-          </div>
-          <div class="bar-track"><div class="bar-fill friendly" id="reachBar-1" style="width:0%"></div></div>
-          <div class="bar-pct" id="reachPercent-1">0% da comunidade atingida</div>
-        </div>
         <div class="factor-info">
           <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
           <span class="factor-pill friendly">x8.0 &mdash; Menor Tempo de Tela</span>
-          <div class="factor-desc">Conteúdo construtivo e de baixo atrito que gera respostas rápidas e leitura breve, resultando em menor tempo de tela e fator de distribuição moderado.</div>
+          <div class="factor-desc">Conteúdo construtivo e de baixo atrito que gera respostas rápidas e leitura breve,
+            resultando em menor tempo de tela e fator de distribuição moderado.</div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-1">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong>
+              </div>
+              <div class="reach-calc-line" id="reachCalcStep-1">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill friendly" id="reachBar-1" style="width:0%"></div>
+          </div>
+          <div class="bar-pct" id="reachPercent-1">0% da comunidade atingida</div>
         </div>
       </div>
 
@@ -623,13 +1359,15 @@
       <div class="page" id="page-post2">
         <div class="page-header-intro">
           <h2 class="page-title-main">Coleta de Engajamento: Postagem 2</h2>
-          <p class="page-subtitle">Análise de uma postagem com alto potencial de atrito e reações defensivas na rede.</p>
+          <p class="page-subtitle">Análise de uma postagem com alto potencial de atrito e reações defensivas na rede.
+          </p>
         </div>
         <div class="post-hero toxic">
           <div>
             <div class="post-hero-title">Ataque às Garotas nos Esportes</div>
             <div class="post-hero-author">&#x1F464; Autor: Thiago Alves (9º Ano A)</div>
-            <div class="post-hero-desc">Conteúdo provocativo que desmerece a participação feminina em modalidades esportivas, gerando intensa discussão.</div>
+            <div class="post-hero-desc">Conteúdo provocativo que desmerece a participação feminina em modalidades
+              esportivas, gerando intensa discussão.</div>
           </div>
           <div class="post-hero-stats">
             <span class="result-badge" id="scorePill-2">0 pts</span>
@@ -640,20 +1378,25 @@
           <h3>Registro de Interações</h3>
           <div class="inputs-grid" id="inputs-2"></div>
         </div>
-        <div class="results-strip">
-          <div class="results-strip-top">
-            <div>
-              <div class="formula-display" id="mathFormula-2">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
-              <div class="reach-calc-line" id="reachCalcStep-2">Alcance Estimado: <strong>0 pessoas</strong></div>
-            </div>
-          </div>
-          <div class="bar-track"><div class="bar-fill toxic" id="reachBar-2" style="width:0%"></div></div>
-          <div class="bar-pct" id="reachPercent-2">0% da comunidade atingida</div>
-        </div>
         <div class="factor-info">
           <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
           <span class="factor-pill toxic">x15.5 &mdash; Alto Tempo de Tela por Conflito</span>
-          <div class="factor-desc">Debates hostis prolongam drasticamente a permanência do usuário na tela. O sistema recompensa o engajamento raivoso multiplicando a distribuição com base nesse longo tempo de tela gerado.</div>
+          <div class="factor-desc">Debates hostis prolongam drasticamente a permanência do usuário na tela. O sistema
+            recompensa o engajamento raivoso multiplicando a distribuição com base nesse longo tempo de tela gerado.
+          </div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-2">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong>
+              </div>
+              <div class="reach-calc-line" id="reachCalcStep-2">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill toxic" id="reachBar-2" style="width:0%"></div>
+          </div>
+          <div class="bar-pct" id="reachPercent-2">0% da comunidade atingida</div>
         </div>
       </div>
 
@@ -661,13 +1404,15 @@
       <div class="page" id="page-post3">
         <div class="page-header-intro">
           <h2 class="page-title-main">Coleta de Engajamento: Postagem 3</h2>
-          <p class="page-subtitle">Medição de impacto de projetos acadêmicos e científicos desenvolvidos coletivamente.</p>
+          <p class="page-subtitle">Medição de impacto de projetos acadêmicos e científicos desenvolvidos coletivamente.
+          </p>
         </div>
         <div class="post-hero friendly">
           <div>
             <div class="post-hero-title">Maquete de Ciências com Reciclados</div>
             <div class="post-hero-author">&#x1F464; Autora: Marina Pereira (8º Ano A)</div>
-            <div class="post-hero-desc">Registro comemorativo sobre a conclusão bem-sucedida de um projeto pedagógico em grupo.</div>
+            <div class="post-hero-desc">Registro comemorativo sobre a conclusão bem-sucedida de um projeto pedagógico em
+              grupo.</div>
           </div>
           <div class="post-hero-stats">
             <span class="result-badge" id="scorePill-3">0 pts</span>
@@ -678,20 +1423,24 @@
           <h3>Registro de Interações</h3>
           <div class="inputs-grid" id="inputs-3"></div>
         </div>
-        <div class="results-strip">
-          <div class="results-strip-top">
-            <div>
-              <div class="formula-display" id="mathFormula-3">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
-              <div class="reach-calc-line" id="reachCalcStep-3">Alcance Estimado: <strong>0 pessoas</strong></div>
-            </div>
-          </div>
-          <div class="bar-track"><div class="bar-fill friendly" id="reachBar-3" style="width:0%"></div></div>
-          <div class="bar-pct" id="reachPercent-3">0% da comunidade atingida</div>
-        </div>
         <div class="factor-info">
           <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
           <span class="factor-pill friendly">x8.5 &mdash; Baixo Tempo de Tela</span>
-          <div class="factor-desc">Fator estável e focado em valorização de conquistas escolares, gerando visualização rápida sem retenção prolongada por polêmica.</div>
+          <div class="factor-desc">Fator estável e focado em valorização de conquistas escolares, gerando visualização
+            rápida sem retenção prolongada por polêmica.</div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-3">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong>
+              </div>
+              <div class="reach-calc-line" id="reachCalcStep-3">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill friendly" id="reachBar-3" style="width:0%"></div>
+          </div>
+          <div class="bar-pct" id="reachPercent-3">0% da comunidade atingida</div>
         </div>
       </div>
 
@@ -703,9 +1452,10 @@
         </div>
         <div class="post-hero toxic">
           <div>
-            <div class="post-hero-title">Preconceito contra Bolsistas e Novatos</div>
+            <div class="post-hero-title">Preconceito contra Novatos</div>
             <div class="post-hero-author">&#x1F464; Autor: Gabriel Fonseca (9º Ano C)</div>
-            <div class="post-hero-desc">Discurso excludente destinado a gerar repulsa imediata, indignação e debates acalorados em massa.</div>
+            <div class="post-hero-desc">Discurso excludente destinado a gerar repulsa imediata, indignação e debates
+              acalorados em massa.</div>
           </div>
           <div class="post-hero-stats">
             <span class="result-badge" id="scorePill-4">0 pts</span>
@@ -716,20 +1466,24 @@
           <h3>Registro de Interações</h3>
           <div class="inputs-grid" id="inputs-4"></div>
         </div>
-        <div class="results-strip">
-          <div class="results-strip-top">
-            <div>
-              <div class="formula-display" id="mathFormula-4">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
-              <div class="reach-calc-line" id="reachCalcStep-4">Alcance Estimado: <strong>0 pessoas</strong></div>
-            </div>
-          </div>
-          <div class="bar-track"><div class="bar-fill toxic" id="reachBar-4" style="width:0%"></div></div>
-          <div class="bar-pct" id="reachPercent-4">0% da comunidade atingida</div>
-        </div>
         <div class="factor-info">
           <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
           <span class="factor-pill toxic">x16.0 &mdash; Máximo Tempo de Tela por Polêmica Extrema</span>
-          <div class="factor-desc">O algoritmo interpreta a alta carga de indignação como sinal de retenção máxima. Cadeias longas de respostas elevam o tempo de tela, disparando o conteúdo para quase toda a rede.</div>
+          <div class="factor-desc">O algoritmo interpreta a alta carga de indignação como sinal de retenção máxima.
+            Cadeias longas de respostas elevam o tempo de tela, disparando o conteúdo para quase toda a rede.</div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-4">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong>
+              </div>
+              <div class="reach-calc-line" id="reachCalcStep-4">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill toxic" id="reachBar-4" style="width:0%"></div>
+          </div>
+          <div class="bar-pct" id="reachPercent-4">0% da comunidade atingida</div>
         </div>
       </div>
 
@@ -743,7 +1497,8 @@
           <div>
             <div class="post-hero-title">Provocação Manhã vs. Tarde</div>
             <div class="post-hero-author">&#x1F464; Autor: Enzo Santos (9º Ano A)</div>
-            <div class="post-hero-desc">Rivalidade clássica entre turnos escolares que incita respostas rápidas e debates</div>
+            <div class="post-hero-desc">Rivalidade clássica entre turnos escolares que incita respostas rápidas e
+              debates</div>
           </div>
           <div class="post-hero-stats">
             <span class="result-badge" id="scorePill-5">0 pts</span>
@@ -754,20 +1509,24 @@
           <h3>Registro de Interações</h3>
           <div class="inputs-grid" id="inputs-5"></div>
         </div>
-        <div class="results-strip">
-          <div class="results-strip-top">
-            <div>
-              <div class="formula-display" id="mathFormula-5">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
-              <div class="reach-calc-line" id="reachCalcStep-5">Alcance Estimado: <strong>0 pessoas</strong></div>
-            </div>
-          </div>
-          <div class="bar-track"><div class="bar-fill neutral" id="reachBar-5" style="width:0%"></div></div>
-          <div class="bar-pct" id="reachPercent-5">0% da comunidade atingida</div>
-        </div>
         <div class="factor-info">
           <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
           <span class="factor-pill neutral">x13.0 &mdash; Tempo de Tela Intermediário</span>
-          <div class="factor-desc">Dinâmica de confronto entre grupos que atrai respostas frequentes, gerando um patamar intermediário de tempo de tela e amplificação.</div>
+          <div class="factor-desc">Dinâmica de confronto entre grupos que atrai respostas frequentes, gerando um patamar
+            intermediário de tempo de tela e amplificação.</div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-5">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong>
+              </div>
+              <div class="reach-calc-line" id="reachCalcStep-5">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill neutral" id="reachBar-5" style="width:0%"></div>
+          </div>
+          <div class="bar-pct" id="reachPercent-5">0% da comunidade atingida</div>
         </div>
       </div>
 
@@ -778,7 +1537,8 @@
       <div class="page" id="page-formula">
         <div class="page-header-intro">
           <h2 class="page-title-main">Como o Algoritmo Decide o que Você Vê?</h2>
-          <p class="page-subtitle">Compreenda a lógica matemática por trás dos pesos de engajamento e o real significado do Fator de Alcance.</p>
+          <p class="page-subtitle">Compreenda a lógica matemática por trás dos pesos de engajamento e o real significado
+            do Fator de Alcance.</p>
         </div>
 
         <div class="weights-grid">
@@ -786,19 +1546,22 @@
             <div class="wc-emoji">&#x2764;&#xFE0F;</div>
             <div class="wc-name">Curtida</div>
             <div class="wc-pts like-pts">+2 pts</div>
-            <div class="wc-desc">Ação rápida e de baixo esforço cognitivo. Demonstra aprovação passageira sem reter o usuário na plataforma.</div>
+            <div class="wc-desc">Ação rápida e de baixo esforço cognitivo. Demonstra aprovação passageira sem reter o
+              usuário na plataforma.</div>
           </div>
           <div class="weight-card">
             <div class="wc-emoji">&#x1F4AC;</div>
             <div class="wc-name">Comentário</div>
             <div class="wc-pts comment-pts">+8 pts</div>
-            <div class="wc-desc">Exige reflexão, digitação e debate. Mantém o usuário ativamente conectado e gerando tempo de tela valioso.</div>
+            <div class="wc-desc">Exige reflexão, digitação e debate. Mantém o usuário ativamente conectado e gerando
+              tempo de tela valioso.</div>
           </div>
           <div class="weight-card">
             <div class="wc-emoji">&#x1F680;</div>
             <div class="wc-name">Compartilhamento</div>
             <div class="wc-pts share-pts">+20 pts</div>
-            <div class="wc-desc">Fura bolhas e expande a fronteira da rede, atraindo novos públicos e multiplicando o alcance exponencialmente.</div>
+            <div class="wc-desc">Fura bolhas e expande a fronteira da rede, atraindo novos públicos e multiplicando o
+              alcance exponencialmente.</div>
           </div>
         </div>
 
@@ -806,26 +1569,41 @@
         <div class="factor-explanation-box">
           <h3>&#x1F914; O Critério Real: O Fator de Alcance Baseado no Tempo de Tela</h3>
           <p>
-            O fator multiplicador do alcance não é um número arbitrário; ele é o <strong>multiplicador algorítmico derivado diretamente do tempo estimado de permanência (tempo de tela)</strong> que cada tipo de conteúdo consegue extrair do usuário. As plataformas medem rigorosamente quanto tempo a atenção do usuário fica aprisionada em uma publicação:
+            O fator multiplicador do alcance não é um número arbitrário; ele é o <strong>multiplicador algorítmico
+              derivado diretamente do tempo estimado de permanência (tempo de tela)</strong> que cada tipo de conteúdo
+            consegue extrair do usuário. As plataformas medem rigorosamente quanto tempo a atenção do usuário fica
+            aprisionada em uma publicação:
           </p>
           <ul>
-            <li><strong>Conteúdos Construtivos e Educativos (Fator x8 a x8.5):</strong> Geram reconhecimento rápido e saída imediata da postagem. O tempo de tela é baixo, logo o algoritmo limita a distribuição.</li>
-            <li><strong>Rivalidades e Debates Cotidianos (Fator x13):</strong> Estimulam réplicas e tréplicas moderadas, estendendo o tempo de tela de forma intermediária.</li>
-            <li><strong>Discursos de Ódio e Conflito Severo (Fator x15.5 a x16):</strong> Desencadeiam reações viscerais de defesa e indignação. Estatísticas de redes sociais comprovam que conteúdos tóxicos geram cadeias de comentários longas e prolongadas, elevando drasticamente o <strong>tempo de tela</strong>.</li>
+            <li><strong>Conteúdos Construtivos e Educativos (Fator x8 a x8.5):</strong> Geram reconhecimento rápido e
+              saída imediata da postagem. O tempo de tela é baixo, logo o algoritmo limita a distribuição.</li>
+            <li><strong>Rivalidades e Debates Cotidianos (Fator x13):</strong> Estimulam réplicas e tréplicas moderadas,
+              estendendo o tempo de tela de forma intermediária.</li>
+            <li><strong>Discursos de Ódio e Conflito Severo (Fator x15.5 a x16):</strong> Desencadeiam reações viscerais
+              de defesa e indignação. Estatísticas de redes sociais comprovam que conteúdos tóxicos geram cadeias de
+              comentários longas e prolongadas, elevando drasticamente o <strong>tempo de tela</strong>.</li>
           </ul>
           <p>
-            Em resumo, o critério central do algoritmo é o lucro por atenção: <strong>quanto maior o tempo de tela gerado por discussões acaloradas, maior será o Fator de Alcance aplicado</strong>, premiando o atrito em detrimento da harmonia.
+            Em resumo, o critério central do algoritmo é o lucro por atenção: <strong>quanto maior o tempo de tela
+              gerado por discussões acaloradas, maior será o Fator de Alcance aplicado</strong>, premiando o atrito em
+            detrimento da harmonia.
           </p>
         </div>
 
         <div class="formula-box">
           <h3>&#x1F9EE; Modelagem Matemática Aplicada</h3>
-          <div class="formula-line"><span>Pontuação de Engajamento (P)</span> = (Curtidas x 2) + (Comentários x 8) + (Compartilhamentos x 20)</div>
-          <div class="formula-line"><span>Alcance Final (A)</span> = 15 + (P x Fator de Alcance baseado no Tempo de Tela) &nbsp; <small style="color:var(--text-muted)">&bull; Limitado ao teto da rede (10.000 pessoas)</small></div>
+          <div class="formula-line"><span>Pontuação de Engajamento (P)</span> = (Curtidas x 2) + (Comentários x 8) +
+            (Compartilhamentos x 20)</div>
+          <div class="formula-line"><span>Alcance Final (A)</span> = 15 + (P x Fator de Alcance baseado no Tempo de
+            Tela) &nbsp; <small style="color:var(--text-muted)">&bull; Limitado ao teto da rede (10.000 pessoas)</small>
+          </div>
         </div>
 
         <div class="insight-box">
-          &#x1F4A1; <strong>Conclusão Crítica:</strong> Como os comentários valem 4 vezes mais que as curtidas e alimentam longas cadeias de discussão, o algoritmo converte automaticamente o tempo de tela gerado pelo conflito em visibilidade ampliada. Uma postagem com fator x16 atinge quase o dobro de pessoas em comparação a uma publicação colaborativa com o mesmo volume de interações iniciais.
+          &#x1F4A1; <strong>Conclusão Crítica:</strong> Como os comentários valem 4 vezes mais que as curtidas e
+          alimentam longas cadeias de discussão, o algoritmo converte automaticamente o tempo de tela gerado pelo
+          conflito em visibilidade ampliada. Uma postagem com fator x16 atinge quase o dobro de pessoas em comparação a
+          uma publicação colaborativa com o mesmo volume de interações iniciais.
         </div>
       </div>
 
@@ -836,7 +1614,8 @@
       <div class="page" id="page-charts">
         <div class="page-header-intro">
           <h2 class="page-title-main">Dashboard Consolidado da Comunidade</h2>
-          <p class="page-subtitle">Panorama analítico em tempo real comparando o desempenho, alcance e pontuação de todas as publicações da oficina.</p>
+          <p class="page-subtitle">Panorama analítico em tempo real comparando o desempenho, alcance e pontuação de
+            todas as publicações da oficina.</p>
         </div>
 
         <div class="highlight-banner" id="topPostHighlight">
@@ -904,29 +1683,27 @@
     const TOTAL_USERS = 10000;
 
     const POSTS_DATA = [
-      { id:1, shortTitle:'Gincana Cultural',    title:'Post 1: Gincana Cultural da Escola',          cls:'friendly', reachFactor:8.0  },
-      { id:2, shortTitle:'Ataque às Garotas',   title:'Post 2: Ataque às Garotas nos Esportes',      cls:'toxic',    reachFactor:15.5 },
-      { id:3, shortTitle:'Maquete Ciências',    title:'Post 3: Maquete de Ciências com Reciclados',  cls:'friendly', reachFactor:8.5  },
-      { id:4, shortTitle:'Preconceito Bolsistas',title:'Post 4: Preconceito contra Bolsistas',       cls:'toxic',    reachFactor:16.0 },
-      { id:5, shortTitle:'Manhã vs. Tarde',     title:'Post 5: Provocação Manhã vs. Tarde',          cls:'neutral',  reachFactor:13.0 }
+      { id: 1, shortTitle: 'Gincana Cultural', title: 'Post 1: Gincana Cultural da Escola', cls: 'friendly', reachFactor: 8.0 },
+      { id: 2, shortTitle: 'Ataque às Garotas', title: 'Post 2: Ataque às Garotas nos Esportes', cls: 'toxic', reachFactor: 15.5 },
+      { id: 3, shortTitle: 'Maquete Ciências', title: 'Post 3: Maquete de Ciências com Reciclados', cls: 'friendly', reachFactor: 8.5 },
+      { id: 4, shortTitle: 'Preconceito Novatos', title: 'Post 4: Preconceito contra Novatos', cls: 'toxic', reachFactor: 16.0 },
+      { id: 5, shortTitle: 'Manhã vs. Tarde', title: 'Post 5: Provocação Manhã vs. Tarde', cls: 'neutral', reachFactor: 13.0 }
     ];
 
-    const STORAGE_KEY = 'redelab_oficina_feed_v2';
-
     const CHART_COLORS = {
-      friendly: { bar:'rgba(5,150,105,0.8)',  border:'#059669' },
-      toxic:    { bar:'rgba(220,38,38,0.8)',   border:'#dc2626' },
-      neutral:  { bar:'rgba(217,119,6,0.8)',   border:'#d97706' }
+      friendly: { bar: '#059669', border: '#059669' },
+      toxic: { bar: '#dc2626', border: '#dc2626' },
+      neutral: { bar: '#d97706', border: '#d97706' }
     };
 
     const PAGE_META = {
-      post1:   { title:'Post 1: Gincana Cultural da Escola',    sub:'Lucas Gabriel (9º Ano B)',       pills:[{text:'Amigável',cls:'friendly'},{text:'Fator x8.0',cls:'friendly'}] },
-      post2:   { title:'Post 2: Ataque às Garotas nos Esportes',sub:'Thiago Alves (9º Ano A)',        pills:[{text:'Tóxico',cls:'toxic'},{text:'Fator x15.5',cls:'toxic'}] },
-      post3:   { title:'Post 3: Maquete de Ciências',           sub:'Marina Pereira (8º Ano A)',      pills:[{text:'Amigável',cls:'friendly'},{text:'Fator x8.5',cls:'friendly'}] },
-      post4:   { title:'Post 4: Preconceito contra Bolsistas',  sub:'Gabriel Fonseca (9º Ano C)',   pills:[{text:'Exclusão',cls:'toxic'},{text:'Fator x16.0',cls:'toxic'}] },
-      post5:   { title:'Post 5: Provocação Manhã vs. Tarde',    sub:'Enzo Santos (9º Ano A)',         pills:[{text:'Provocação',cls:'neutral'},{text:'Fator x13.0',cls:'neutral'}] },
-      formula: { title:'A Matemática e o Fator de Alcance',     sub:'Fundamentos teóricos e simulação algorítmica', pills:[] },
-      charts:  { title:'Dashboard e Gráficos Comparativos',     sub:'Consolidado geral da comunidade escolar', pills:[] }
+      post1: { title: 'Post 1: Gincana Cultural da Escola', sub: 'Lucas Gabriel (9º Ano B)', pills: [{ text: 'Amigável', cls: 'friendly' }, { text: 'Fator x8.0', cls: 'friendly' }] },
+      post2: { title: 'Post 2: Ataque às Garotas nos Esportes', sub: 'Thiago Alves (9º Ano A)', pills: [{ text: 'Tóxico', cls: 'toxic' }, { text: 'Fator x15.5', cls: 'toxic' }] },
+      post3: { title: 'Post 3: Maquete de Ciências', sub: 'Marina Pereira (8º Ano A)', pills: [{ text: 'Amigável', cls: 'friendly' }, { text: 'Fator x8.5', cls: 'friendly' }] },
+      post4: { title: 'Post 4: Preconceito contra Novatos', sub: 'Gabriel Fonseca (9º Ano C)', pills: [{ text: 'Exclusão', cls: 'toxic' }, { text: 'Fator x16.0', cls: 'toxic' }] },
+      post5: { title: 'Post 5: Provocação Manhã vs. Tarde', sub: 'Enzo Santos (9º Ano A)', pills: [{ text: 'Provocação', cls: 'neutral' }, { text: 'Fator x13.0', cls: 'neutral' }] },
+      formula: { title: 'A Matemática e o Fator de Alcance', sub: 'Fundamentos teóricos e simulação algorítmica', pills: [] },
+      charts: { title: 'Dashboard e Gráficos Comparativos', sub: 'Consolidado geral da comunidade escolar', pills: [] }
     };
 
     /* --- Navegação de Páginas --- */
@@ -938,8 +1715,8 @@
 
       const meta = PAGE_META[pageId];
       document.getElementById('topbar-title').textContent = meta.title;
-      document.getElementById('topbar-sub').textContent   = meta.sub;
-      document.getElementById('topbar-pills').innerHTML   =
+      document.getElementById('topbar-sub').textContent = meta.sub;
+      document.getElementById('topbar-pills').innerHTML =
         meta.pills.map(p => '<span class="pill ' + p.cls + '">' + p.text + '</span>').join('');
 
       if (pageId === 'charts') updateCharts();
@@ -948,9 +1725,9 @@
     /* --- Construção dos Cards de Entrada de Dados --- */
     function buildInputCards() {
       const fields = [
-        { key:'Likes',    label:'Curtidas',          tagCls:'like',    tag:'+2 pts',  emoji:'&#x2764;&#xFE0F;' },
-        { key:'Comments', label:'Comentários',       tagCls:'comment', tag:'+8 pts',  emoji:'&#x1F4AC;' },
-        { key:'Shares',   label:'Compartilhamentos', tagCls:'share',   tag:'+20 pts', emoji:'&#x1F680;' }
+        { key: 'Likes', label: 'Curtidas', tagCls: 'like', tag: '+2 pts', emoji: '&#x2764;&#xFE0F;' },
+        { key: 'Comments', label: 'Comentários', tagCls: 'comment', tag: '+8 pts', emoji: '&#x1F4AC;' },
+        { key: 'Shares', label: 'Compartilhamentos', tagCls: 'share', tag: '+20 pts', emoji: '&#x1F680;' }
       ];
 
       POSTS_DATA.forEach(post => {
@@ -988,12 +1765,12 @@
 
     function computePost(postId) {
       const post = POSTS_DATA.find(p => p.id === postId);
-      const likes    = getVal('inputLikes-'    + postId);
+      const likes = getVal('inputLikes-' + postId);
       const comments = getVal('inputComments-' + postId);
-      const shares   = getVal('inputShares-'   + postId);
+      const shares = getVal('inputShares-' + postId);
       const score = likes * 2 + comments * 8 + shares * 20;
       const reach = score > 0 ? Math.min(TOTAL_USERS, Math.round(15 + score * post.reachFactor)) : 0;
-      const pct   = ((reach / TOTAL_USERS) * 100).toFixed(1);
+      const pct = ((reach / TOTAL_USERS) * 100).toFixed(1);
       return { likes, comments, shares, score, reach, pct };
     }
 
@@ -1041,33 +1818,33 @@
         return Object.assign({}, post, d);
       });
 
-      const labels  = data.map(d => 'P' + d.id);
+      const labels = data.map(d => 'P' + d.id);
       const reaches = data.map(d => d.reach);
-      const scores  = data.map(d => d.score);
+      const scores = data.map(d => d.score);
       const barColors = data.map(d => CHART_COLORS[d.cls].bar);
-      const borders   = data.map(d => CHART_COLORS[d.cls].border);
+      const borders = data.map(d => CHART_COLORS[d.cls].border);
 
       const chartDefaults = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: '#64748b', font: { size: 12, weight: '600' } }, grid: { color: '#e2e8f0' } },
-          y: { ticks: { color: '#64748b', font: { size: 12, weight: '600' } }, grid: { color: '#e2e8f0' } }
+          x: { ticks: { color: '#71717a', font: { family: "'JetBrains Mono', monospace", size: 11, weight: '600' } }, grid: { color: '#e4e4e7' } },
+          y: { ticks: { color: '#71717a', font: { family: "'JetBrains Mono', monospace", size: 11, weight: '600' } }, grid: { color: '#e4e4e7' } }
         }
       };
 
       if (chartReachInst) chartReachInst.destroy();
       chartReachInst = new Chart(document.getElementById('chartReach'), {
         type: 'bar',
-        data: { labels, datasets: [{ data: reaches, backgroundColor: barColors, borderColor: borders, borderWidth: 1.5, borderRadius: 8 }] },
+        data: { labels, datasets: [{ data: reaches, backgroundColor: barColors, borderColor: borders, borderWidth: 1, borderRadius: 0 }] },
         options: Object.assign({}, chartDefaults, { plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw.toLocaleString('pt-BR') + ' pessoas' } } } })
       });
 
       if (chartScoreInst) chartScoreInst.destroy();
       chartScoreInst = new Chart(document.getElementById('chartScore'), {
         type: 'bar',
-        data: { labels, datasets: [{ data: scores, backgroundColor: barColors, borderColor: borders, borderWidth: 1.5, borderRadius: 8 }] },
+        data: { labels, datasets: [{ data: scores, backgroundColor: barColors, borderColor: borders, borderWidth: 1, borderRadius: 0 }] },
         options: Object.assign({}, chartDefaults, { plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw + ' pts' } } } })
       });
 
@@ -1079,21 +1856,21 @@
           datasets: data.map(d => ({
             label: 'P' + d.id + ' (' + d.shortTitle + ')',
             data: [d.likes, d.comments, d.shares],
-            backgroundColor: CHART_COLORS[d.cls].bar.replace('0.8', '0.15'),
+            backgroundColor: CHART_COLORS[d.cls].bar + '26',
             borderColor: CHART_COLORS[d.cls].border,
-            borderWidth: 2,
+            borderWidth: 1.5,
             pointBackgroundColor: CHART_COLORS[d.cls].border,
-            pointRadius: 4
+            pointRadius: 3
           }))
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: true, position: 'bottom', labels: { color: '#334155', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } } },
+          plugins: { legend: { display: true, position: 'bottom', labels: { color: '#27272a', font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' }, boxWidth: 10, padding: 12 } } },
           scales: {
             r: {
-              ticks: { color: '#64748b', backdropColor: 'transparent', font: { size: 10 } },
-              grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' },
-              pointLabels: { color: '#1e293b', font: { size: 12, weight: '700' } }
+              ticks: { color: '#71717a', backdropColor: 'transparent', font: { family: "'JetBrains Mono', monospace", size: 10 } },
+              grid: { color: '#e4e4e7' }, angleLines: { color: '#e4e4e7' },
+              pointLabels: { color: '#09090b', font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '700' } }
             }
           }
         }
@@ -1104,12 +1881,12 @@
         type: 'doughnut',
         data: {
           labels: data.map(d => d.shortTitle),
-          datasets: [{ data: reaches, backgroundColor: barColors, borderColor: '#ffffff', borderWidth: 3 }]
+          datasets: [{ data: reaches, backgroundColor: barColors, borderColor: '#ffffff', borderWidth: 2 }]
         },
         options: {
-          responsive: true, maintainAspectRatio: false, cutout: '65%',
+          responsive: true, maintainAspectRatio: false, cutout: '70%',
           plugins: {
-            legend: { display: true, position: 'bottom', labels: { color: '#334155', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } },
+            legend: { display: true, position: 'bottom', labels: { color: '#27272a', font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' }, boxWidth: 10, padding: 12 } },
             tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw.toLocaleString('pt-BR') + ' pessoas' } }
           }
         }
@@ -1123,15 +1900,15 @@
       const maxSPost = data.find(d => d.score === maxS);
 
       const friendlyReach = data.filter(d => d.cls === 'friendly').reduce((a, d) => a + d.reach, 0);
-      const toxicReach    = data.filter(d => d.cls === 'toxic').reduce((a, d) => a + d.reach, 0);
+      const toxicReach = data.filter(d => d.cls === 'toxic').reduce((a, d) => a + d.reach, 0);
       const ratio = friendlyReach > 0 ? (toxicReach / friendlyReach).toFixed(1) : (toxicReach > 0 ? 'INF' : '1.0');
 
-      document.getElementById('kpi-totalReach').textContent    = totalReach.toLocaleString('pt-BR');
-      document.getElementById('kpi-maxReach').textContent      = maxR.toLocaleString('pt-BR');
-      document.getElementById('kpi-maxPost').textContent       = maxRPost ? maxRPost.shortTitle : 'Nenhum';
-      document.getElementById('kpi-maxScore').textContent      = maxS + ' pts';
-      document.getElementById('kpi-maxScorePost').textContent  = maxSPost ? maxSPost.shortTitle : 'Nenhum';
-      document.getElementById('kpi-toxicReach').textContent    = ratio + 'x';
+      document.getElementById('kpi-totalReach').textContent = totalReach.toLocaleString('pt-BR');
+      document.getElementById('kpi-maxReach').textContent = maxR.toLocaleString('pt-BR');
+      document.getElementById('kpi-maxPost').textContent = maxRPost ? maxRPost.shortTitle : 'Nenhum';
+      document.getElementById('kpi-maxScore').textContent = maxS + ' pts';
+      document.getElementById('kpi-maxScorePost').textContent = maxSPost ? maxSPost.shortTitle : 'Nenhum';
+      document.getElementById('kpi-toxicReach').textContent = ratio + 'x';
 
       const hl = document.getElementById('topPostHighlight');
       if (maxR > 0 && maxRPost) {
@@ -1162,35 +1939,12 @@
     }
 
     /* --- Cenários e Ações Auxiliares --- */
-    function loadFromFeed(showMsg) {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) { if (showMsg) showToast('Nenhum dado salvo encontrado no armazenamento.'); return; }
-        const state = JSON.parse(raw);
-        const posts = state.posts || state;
-        POSTS_DATA.forEach(p => {
-          const post = posts[p.id] || {};
-          const likes = Number(post.likes) || 0;
-          const shares = Number(post.shares) || 0;
-          const commentsArr = Array.isArray(post.comments) ? post.comments : (post.comments && typeof post.comments === 'object' ? Object.values(post.comments) : []);
-          let total = commentsArr.length;
-          commentsArr.forEach(c => { total += (Array.isArray(c.replies) ? c.replies : Object.values(c.replies || {})).length; });
-          const sv = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
-          sv('inputLikes-' + p.id, likes);
-          sv('inputComments-' + p.id, total);
-          sv('inputShares-' + p.id, shares);
-        });
-        recalcAll();
-        if (showMsg) showToast('Dados do feed sincronizados com sucesso!');
-      } catch (e) { if (showMsg) showToast('Erro ao carregar dados do armazenamento.'); }
-    }
-
     function setPolarizationScenario() {
-      const vals = [{l:18,c:3,s:1},{l:45,c:38,s:12},{l:22,c:4,s:1},{l:35,c:42,s:15},{l:28,c:15,s:5}];
+      const vals = [{ l: 18, c: 3, s: 1 }, { l: 45, c: 38, s: 12 }, { l: 22, c: 4, s: 1 }, { l: 35, c: 42, s: 15 }, { l: 28, c: 15, s: 5 }];
       POSTS_DATA.forEach((p, i) => {
-        document.getElementById('inputLikes-'    + p.id).value = vals[i].l;
+        document.getElementById('inputLikes-' + p.id).value = vals[i].l;
         document.getElementById('inputComments-' + p.id).value = vals[i].c;
-        document.getElementById('inputShares-'   + p.id).value = vals[i].s;
+        document.getElementById('inputShares-' + p.id).value = vals[i].s;
       });
       recalcAll();
       showToast('Cenário de Polarização aplicado com sucesso!');
@@ -1198,9 +1952,9 @@
 
     function setEqualActionsScenario() {
       POSTS_DATA.forEach(p => {
-        document.getElementById('inputLikes-'    + p.id).value = 30;
+        document.getElementById('inputLikes-' + p.id).value = 30;
         document.getElementById('inputComments-' + p.id).value = 12;
-        document.getElementById('inputShares-'   + p.id).value = 4;
+        document.getElementById('inputShares-' + p.id).value = 4;
       });
       recalcAll();
       showToast('Ações idênticas aplicadas. Observe a disparidade final de alcance!');
@@ -1225,11 +1979,11 @@
       toastTimer = setTimeout(() => el.classList.add('hidden'), 3000);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       buildInputCards();
-      loadFromFeed(false);
       recalcAll();
     });
   </script>
 </body>
+
 </html>
