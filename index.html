@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apresentação: A Matemática dos Algoritmos | RedeLab</title>
+  <meta name="description"
+    content="Apresentação interativa sobre o funcionamento do engajamento e alcance de algoritmos em redes sociais.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* =========================================================
+       TOKENS & RESET (Estilo para Apresentação em Tela Cheia)
+       ========================================================= */
+    :root {
+      --bg-body: #f8fafc;
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f1f5f9;
+      --bg-input: #f8fafc;
+      --border: #cbd5e1;
+      --border-focus: #4f46e5;
+
+      --text-main: #090d16;
+      --text-muted: #64748b;
+      --text-secondary: #334155;
+
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-glow: rgba(79, 70, 229, 0.12);
+
+      --friendly: #059669;
+      --friendly-bg: rgba(5,150,105,0.08);
+      --friendly-border: rgba(5,150,105,0.3);
+
+      --toxic: #dc2626;
+      --toxic-bg: rgba(220,38,38,0.08);
+      --toxic-border: rgba(220,38,38,0.3);
+
+      --neutral: #d97706;
+      --neutral-bg: rgba(217,119,6,0.08);
+      --neutral-border: rgba(217,119,6,0.3);
+
+      --font: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 18px;
+      --r-xl: 24px;
+      --r-full: 9999px;
+
+      --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.05);
+      --shadow-glow: 0 0 0 4px var(--primary-glow);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ---- SIDEBAR ---- */
+    .sidebar {
+      width: 300px;
+      min-width: 300px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      padding: 1.75rem 1.25rem;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-orb {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--r-md);
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(79,70,229,0.3);
+    }
+    .logo-orb svg { width: 26px; height: 26px; color: #fff; }
+
+    .logo-text .brand { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
+    .logo-text .sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .sidebar-section-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 0 0.6rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0.85rem;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all 0.18s;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      user-select: none;
+      border: 1px solid transparent;
+      margin-bottom: 0.25rem;
+    }
+    .nav-item:hover { background: var(--bg-card-alt); color: var(--text-main); border-color: var(--border); }
+    .nav-item.active { background: var(--primary-glow); color: var(--primary); border-color: var(--border-focus); font-weight: 700; }
+
+    .nav-item .nav-icon { font-size: 1.15rem; width: 24px; text-align: center; flex-shrink: 0; }
+
+    .type-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .type-dot.friendly { background: var(--friendly); }
+    .type-dot.toxic { background: var(--toxic); }
+    .type-dot.neutral { background: var(--neutral); }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--r-full);
+      background: var(--bg-card-alt);
+      color: var(--text-muted);
+    }
+    .nav-item.active .nav-badge { background: var(--primary); color: #fff; }
+
+    .sidebar-actions {
+      margin-top: auto;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .sidebar-btn:hover { background: var(--bg-card-alt); color: var(--text-main); border-color: var(--text-muted); }
+    .sidebar-btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .sidebar-btn.primary:hover { background: var(--primary-hover); }
+
+    /* ---- MAIN CONTENT ---- */
+    .main-content { flex: 1; overflow-x: hidden; min-width: 0; display: flex; flex-direction: column; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-sidebar);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      gap: 1rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .topbar-title { font-size: 1.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em; }
+    .topbar-sub { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; margin-top: 0.1rem; }
+    .topbar-pills { display: flex; align-items: center; gap: 0.6rem; }
+
+    .pill {
+      font-size: 0.78rem; font-weight: 700;
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--r-full); border: 1px solid;
+    }
+    .pill.friendly { color: var(--friendly); border-color: var(--friendly-border); background: var(--friendly-bg); }
+    .pill.toxic { color: var(--toxic); border-color: var(--toxic-border); background: var(--toxic-bg); }
+    .pill.neutral { color: var(--neutral); border-color: var(--neutral-border); background: var(--neutral-bg); }
+
+    .page { display: none; padding: 2.5rem; animation: fadeIn 0.25s ease; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header-intro {
+      margin-bottom: 2rem;
+    }
+    .page-title-main { font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+    .page-subtitle { color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; max-width: 900px; }
+
+    /* =========================================================
+       POST PAGES
+       ========================================================= */
+    .post-hero {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 2rem; margin-bottom: 1.75rem;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1.5rem; flex-wrap: wrap; box-shadow: var(--shadow-card);
+    }
+    .post-hero.friendly { border-left: 6px solid var(--friendly); }
+    .post-hero.toxic    { border-left: 6px solid var(--toxic); }
+    .post-hero.neutral  { border-left: 6px solid var(--neutral); }
+
+    .post-hero-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-main); }
+    .post-hero-author { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600; }
+    .post-hero-desc { font-size: 1rem; color: var(--text-secondary); max-width: 650px; line-height: 1.6; }
+
+    .post-hero-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
+
+    .result-badge {
+      font-family: var(--mono); font-size: 1.35rem; font-weight: 800;
+      padding: 0.5rem 1.25rem; border-radius: var(--r-full);
+      background: var(--primary-glow); color: var(--primary);
+      border: 1px solid var(--border-focus); white-space: nowrap;
+    }
+    .reach-badge {
+      font-family: var(--mono); font-size: 0.95rem; font-weight: 700;
+      padding: 0.4rem 1rem; border-radius: var(--r-full);
+      background: var(--bg-card-alt); color: var(--text-secondary); border: 1px solid var(--border);
+    }
+
+    .inputs-section { margin-bottom: 1.75rem; }
+    .inputs-section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 800; }
+
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .input-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-card:focus-within { border-color: var(--border-focus); box-shadow: var(--shadow-glow); }
+
+    .input-card-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+    }
+    .input-card-label { font-size: 1rem; font-weight: 700; color: var(--text-secondary); }
+    .input-weight-tag {
+      font-family: var(--mono); font-size: 0.75rem; font-weight: 800;
+      padding: 0.2rem 0.6rem; border-radius: var(--r-full);
+    }
+    .input-weight-tag.like    { background: rgba(244,114,182,0.15); color: #db2777; }
+    .input-weight-tag.comment { background: var(--primary-glow); color: var(--primary); }
+    .input-weight-tag.share   { background: rgba(245,158,11,0.15); color: var(--neutral); }
+
+    .input-controls { display: flex; align-items: center; gap: 0.6rem; }
+
+    .step-btn {
+      background: var(--bg-card-alt); border: 1px solid var(--border);
+      color: var(--text-secondary); font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
+      padding: 0.5rem 0.75rem; border-radius: var(--r-sm); cursor: pointer;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .step-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    .num-input {
+      width: 80px; background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--r-sm); color: var(--text-main);
+      font-family: var(--mono); font-size: 1.15rem; font-weight: 800;
+      text-align: center; padding: 0.45rem 0.25rem; transition: border-color 0.2s;
+    }
+    .num-input:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--primary-glow); }
+    .num-input::-webkit-inner-spin-button,
+    .num-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    .results-strip {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-card);
+    }
+    .results-strip-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;
+    }
+    .formula-display {
+      font-family: var(--mono); font-size: 0.95rem; color: var(--text-secondary);
+      background: var(--bg-card-alt); padding: 0.75rem 1.1rem;
+      border-radius: var(--r-md); border: 1px solid var(--border);
+    }
+    .formula-display strong { color: var(--text-main); }
+    .reach-calc-line { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.6rem; }
+    .reach-calc-line strong { color: var(--text-secondary); font-family: var(--mono); }
+
+    .bar-track { height: 12px; background: var(--bg-card-alt); border-radius: var(--r-full); overflow: hidden; margin-bottom: 0.5rem; border: 1px solid var(--border); }
+    .bar-fill {
+      height: 100%; border-radius: var(--r-full);
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+      background: linear-gradient(90deg, var(--primary), #7c3aed);
+    }
+    .bar-fill.friendly { background: linear-gradient(90deg, #059669, #34d399); }
+    .bar-fill.toxic    { background: linear-gradient(90deg, #dc2626, #f87171); }
+    .bar-fill.neutral  { background: linear-gradient(90deg, #d97706, #fbbf24); }
+
+    .bar-pct { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); text-align: right; font-weight: 600; }
+
+    .factor-info {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 1.5rem; box-shadow: var(--shadow-card);
+    }
+    .factor-info h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.85rem; font-weight: 800; }
+
+    .factor-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 1.1rem; font-weight: 800;
+      padding: 0.4rem 1rem; border-radius: var(--r-full); border: 1px solid;
+    }
+    .factor-pill.friendly { color: var(--friendly); border-color: var(--friendly-border); background: var(--friendly-bg); }
+    .factor-pill.toxic    { color: var(--toxic); border-color: var(--toxic-border); background: var(--toxic-bg); }
+    .factor-pill.neutral  { color: var(--neutral); border-color: var(--neutral-border); background: var(--neutral-bg); }
+
+    .factor-desc { font-size: 0.95rem; color: var(--text-secondary); margin-top: 1rem; line-height: 1.65; }
+
+    /* =========================================================
+       FORMULA PAGE
+       ========================================================= */
+    .weights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; margin-bottom: 2rem;
+    }
+    .weight-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 1.5rem 1.75rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .weight-card:hover { border-color: var(--border-focus); box-shadow: var(--shadow-glow); }
+    .wc-emoji { font-size: 2.25rem; }
+    .wc-name { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .wc-pts { font-family: var(--mono); font-size: 1.85rem; font-weight: 800; }
+    .wc-pts.like-pts { color: #db2777; }
+    .wc-pts.comment-pts { color: var(--primary); }
+    .wc-pts.share-pts { color: var(--neutral); }
+    .wc-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+
+    .formula-box {
+      background: var(--bg-card); border: 1px solid var(--border-focus);
+      border-radius: var(--r-xl); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-card);
+    }
+    .formula-box h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem; font-weight: 800; }
+    .formula-line {
+      font-family: var(--mono); font-size: 1.1rem; color: var(--text-main);
+      background: var(--bg-card-alt); padding: 1rem 1.25rem;
+      border-radius: var(--r-md); border: 1px solid var(--border); margin-bottom: 0.85rem;
+    }
+    .formula-line span { color: var(--primary); font-weight: 800; }
+
+    /* Caixa específica sobre o Fator de Alcance e Tempo de Tela */
+    .factor-explanation-box {
+      background: linear-gradient(135deg, #eef2ff, #f3e8ff);
+      border: 1px solid #c7d2fe;
+      border-left: 6px solid var(--primary);
+      border-radius: var(--r-xl);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .factor-explanation-box h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .factor-explanation-box p {
+      font-size: 0.98rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .factor-explanation-box ul {
+      margin-left: 1.25rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+    .factor-explanation-box li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    .insight-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-left: 6px solid var(--primary); border-radius: var(--r-lg);
+      padding: 1.5rem 1.75rem; font-size: 0.98rem; color: var(--text-secondary); line-height: 1.7;
+      box-shadow: var(--shadow-card);
+    }
+    .insight-box strong { color: var(--text-main); }
+
+    /* =========================================================
+       CHARTS PAGE
+       ========================================================= */
+    .charts-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; margin-bottom: 2rem;
+    }
+    @media (max-width: 1000px) { .charts-grid { grid-template-columns: 1fr; } }
+
+    .chart-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 1.75rem; box-shadow: var(--shadow-card);
+    }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { font-size: 1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem; }
+    .chart-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+
+    .chart-wrap { position: relative; width: 100%; }
+
+    .ranking-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.75rem; }
+    .ranking-item { display: flex; align-items: center; gap: 1rem; }
+    .ranking-idx { font-family: var(--mono); font-size: 0.9rem; font-weight: 800; color: var(--text-muted); width: 24px; text-align: center; flex-shrink: 0; }
+    .ranking-bar-wrap { flex: 1; }
+    .ranking-label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem; }
+    .ranking-label .rval { font-family: var(--mono); font-weight: 800; color: var(--text-main); }
+
+    .summary-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;
+    }
+    .stat-kpi {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 1.5rem; transition: border-color 0.2s; box-shadow: var(--shadow-card);
+    }
+    .stat-kpi:hover { border-color: var(--border-focus); }
+    .kpi-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 800; }
+    .kpi-value { font-family: var(--mono); font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
+    .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; font-weight: 500; }
+
+    .highlight-banner {
+      background: var(--primary-glow); border: 1px solid var(--border-focus);
+      border-radius: var(--r-lg); padding: 1.25rem 1.5rem;
+      font-size: 0.98rem; color: var(--text-secondary); margin-bottom: 2rem; box-shadow: var(--shadow-card);
+    }
+    .highlight-banner strong { color: var(--text-main); }
+
+    /* Toast e Scrollbar */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--text-main); color: #ffffff; padding: 1rem 1.5rem;
+      border-radius: var(--r-lg); font-size: 0.95rem; font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 999;
+      transform: translateY(0); opacity: 1; transition: all 0.3s;
+    }
+    .toast.hidden { opacity: 0; transform: translateY(12px); pointer-events: none; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-orb">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <div class="brand">RedeLab</div>
+          <div class="sub">Apresentação Algoritmos</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section-label">1. Análise por Postagem</div>
+      <div class="nav-item active" onclick="switchPage('post1')" id="nav-post1">
+        <span class="type-dot friendly"></span>
+        <span>Post 1 &middot; Gincana Cultural</span>
+        <span class="nav-badge" id="badge-post1">0</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('post2')" id="nav-post2">
+        <span class="type-dot toxic"></span>
+        <span>Post 2 &middot; Conflito Esportes</span>
+        <span class="nav-badge" id="badge-post2">0</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('post3')" id="nav-post3">
+        <span class="type-dot friendly"></span>
+        <span>Post 3 &middot; Maquete de Ciências</span>
+        <span class="nav-badge" id="badge-post3">0</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('post4')" id="nav-post4">
+        <span class="type-dot toxic"></span>
+        <span>Post 4 &middot; Exclusão Social</span>
+        <span class="nav-badge" id="badge-post4">0</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('post5')" id="nav-post5">
+        <span class="type-dot neutral"></span>
+        <span>Post 5 &middot; Manhã vs. Tarde</span>
+        <span class="nav-badge" id="badge-post5">0</span>
+      </div>
+
+      <div class="sidebar-section-label">2. Explicação &amp; Cálculo</div>
+      <div class="nav-item" onclick="switchPage('formula')" id="nav-formula">
+        <span class="nav-icon">&#x2696;&#xFE0F;</span>
+        <span>A Matemática e o Fator de Alcance</span>
+      </div>
+
+      <div class="sidebar-section-label">3. Dashboard Geral</div>
+      <div class="nav-item" onclick="switchPage('charts')" id="nav-charts">
+        <span class="nav-icon">&#x1F4CA;</span>
+        <span>Gráficos e Resultados</span>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="sidebar-btn primary" onclick="loadFromFeed(true)">&#x1F4E5; Sincronizar Feed</button>
+        <button class="sidebar-btn" onclick="setPolarizationScenario()">&#x1F3B2; Cenário de Polarização</button>
+        <button class="sidebar-btn" onclick="setEqualActionsScenario()">&#x2696;&#xFE0F; Teste com Ações Iguais</button>
+        <button class="sidebar-btn" onclick="resetAll()">&#x1F504; Reiniciar Dados</button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="main-content">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title" id="topbar-title">Post 1: Gincana Cultural da Escola</div>
+          <div class="topbar-sub" id="topbar-sub">Coleta de dados da postagem na comunidade escolar</div>
+        </div>
+        <div class="topbar-pills" id="topbar-pills"></div>
+      </div>
+
+      <!-- =========================================================
+         PÁGINAS DE POSTAGENS
+         ========================================================= -->
+
+      <!-- PAGE: POST 1 -->
+      <div class="page active" id="page-post1">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Coleta de Engajamento: Postagem 1</h2>
+          <p class="page-subtitle">Insira ou verifique abaixo o volume de interações recebidas por esta publicação para calcular seu impacto em tempo real.</p>
+        </div>
+        <div class="post-hero friendly">
+          <div>
+            <div class="post-hero-title">Gincana Cultural da Escola</div>
+            <div class="post-hero-author">&#x1F464; Autor: Lucas Gabriel (9º Ano B)</div>
+            <div class="post-hero-desc">Publicação de caráter colaborativo voltada para a união das turmas na montagem de murais e atividades recreativas.</div>
+          </div>
+          <div class="post-hero-stats">
+            <span class="result-badge" id="scorePill-1">0 pts</span>
+            <span class="reach-badge" id="reachPill-1">0 pessoas</span>
+          </div>
+        </div>
+        <div class="inputs-section">
+          <h3>Registro de Interações</h3>
+          <div class="inputs-grid" id="inputs-1"></div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-1">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
+              <div class="reach-calc-line" id="reachCalcStep-1">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill friendly" id="reachBar-1" style="width:0%"></div></div>
+          <div class="bar-pct" id="reachPercent-1">0% da comunidade atingida</div>
+        </div>
+        <div class="factor-info">
+          <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
+          <span class="factor-pill friendly">x8.0 &mdash; Menor Tempo de Tela</span>
+          <div class="factor-desc">Conteúdo construtivo e de baixo atrito que gera respostas rápidas e leitura breve, resultando em menor tempo de tela e fator de distribuição moderado.</div>
+        </div>
+      </div>
+
+      <!-- PAGE: POST 2 -->
+      <div class="page" id="page-post2">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Coleta de Engajamento: Postagem 2</h2>
+          <p class="page-subtitle">Análise de uma postagem com alto potencial de atrito e reações defensivas na rede.</p>
+        </div>
+        <div class="post-hero toxic">
+          <div>
+            <div class="post-hero-title">Ataque às Garotas nos Esportes</div>
+            <div class="post-hero-author">&#x1F464; Autor: Thiago Alves (9º Ano A)</div>
+            <div class="post-hero-desc">Conteúdo provocativo que desmerece a participação feminina em modalidades esportivas, gerando intensa discussão.</div>
+          </div>
+          <div class="post-hero-stats">
+            <span class="result-badge" id="scorePill-2">0 pts</span>
+            <span class="reach-badge" id="reachPill-2">0 pessoas</span>
+          </div>
+        </div>
+        <div class="inputs-section">
+          <h3>Registro de Interações</h3>
+          <div class="inputs-grid" id="inputs-2"></div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-2">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
+              <div class="reach-calc-line" id="reachCalcStep-2">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill toxic" id="reachBar-2" style="width:0%"></div></div>
+          <div class="bar-pct" id="reachPercent-2">0% da comunidade atingida</div>
+        </div>
+        <div class="factor-info">
+          <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
+          <span class="factor-pill toxic">x15.5 &mdash; Alto Tempo de Tela por Conflito</span>
+          <div class="factor-desc">Debates hostis prolongam drasticamente a permanência do usuário na tela. O sistema recompensa o engajamento raivoso multiplicando a distribuição com base nesse longo tempo de tela gerado.</div>
+        </div>
+      </div>
+
+      <!-- PAGE: POST 3 -->
+      <div class="page" id="page-post3">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Coleta de Engajamento: Postagem 3</h2>
+          <p class="page-subtitle">Medição de impacto de projetos acadêmicos e científicos desenvolvidos coletivamente.</p>
+        </div>
+        <div class="post-hero friendly">
+          <div>
+            <div class="post-hero-title">Maquete de Ciências com Reciclados</div>
+            <div class="post-hero-author">&#x1F464; Autora: Marina Pereira (8º Ano A)</div>
+            <div class="post-hero-desc">Registro comemorativo sobre a conclusão bem-sucedida de um projeto pedagógico em grupo.</div>
+          </div>
+          <div class="post-hero-stats">
+            <span class="result-badge" id="scorePill-3">0 pts</span>
+            <span class="reach-badge" id="reachPill-3">0 pessoas</span>
+          </div>
+        </div>
+        <div class="inputs-section">
+          <h3>Registro de Interações</h3>
+          <div class="inputs-grid" id="inputs-3"></div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-3">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
+              <div class="reach-calc-line" id="reachCalcStep-3">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill friendly" id="reachBar-3" style="width:0%"></div></div>
+          <div class="bar-pct" id="reachPercent-3">0% da comunidade atingida</div>
+        </div>
+        <div class="factor-info">
+          <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
+          <span class="factor-pill friendly">x8.5 &mdash; Baixo Tempo de Tela</span>
+          <div class="factor-desc">Fator estável e focado em valorização de conquistas escolares, gerando visualização rápida sem retenção prolongada por polêmica.</div>
+        </div>
+      </div>
+
+      <!-- PAGE: POST 4 -->
+      <div class="page" id="page-post4">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Coleta de Engajamento: Postagem 4</h2>
+          <p class="page-subtitle">Avaliação do alcance de publicações que promovem polarização e exclusão.</p>
+        </div>
+        <div class="post-hero toxic">
+          <div>
+            <div class="post-hero-title">Preconceito contra Bolsistas e Novatos</div>
+            <div class="post-hero-author">&#x1F464; Autor: Gabriel Fonseca (9º Ano C)</div>
+            <div class="post-hero-desc">Discurso excludente destinado a gerar repulsa imediata, indignação e debates acalorados em massa.</div>
+          </div>
+          <div class="post-hero-stats">
+            <span class="result-badge" id="scorePill-4">0 pts</span>
+            <span class="reach-badge" id="reachPill-4">0 pessoas</span>
+          </div>
+        </div>
+        <div class="inputs-section">
+          <h3>Registro de Interações</h3>
+          <div class="inputs-grid" id="inputs-4"></div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-4">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
+              <div class="reach-calc-line" id="reachCalcStep-4">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill toxic" id="reachBar-4" style="width:0%"></div></div>
+          <div class="bar-pct" id="reachPercent-4">0% da comunidade atingida</div>
+        </div>
+        <div class="factor-info">
+          <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
+          <span class="factor-pill toxic">x16.0 &mdash; Máximo Tempo de Tela por Polêmica Extrema</span>
+          <div class="factor-desc">O algoritmo interpreta a alta carga de indignação como sinal de retenção máxima. Cadeias longas de respostas elevam o tempo de tela, disparando o conteúdo para quase toda a rede.</div>
+        </div>
+      </div>
+
+      <!-- PAGE: POST 5 -->
+      <div class="page" id="page-post5">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Coleta de Engajamento: Postagem 5</h2>
+          <p class="page-subtitle">Análise de publicações baseadas em rivalidades cotidianas inofensivas.</p>
+        </div>
+        <div class="post-hero neutral">
+          <div>
+            <div class="post-hero-title">Provocação Manhã vs. Tarde</div>
+            <div class="post-hero-author">&#x1F464; Autor: Enzo Santos (9º Ano A)</div>
+            <div class="post-hero-desc">Rivalidade clássica entre turnos escolares que incita respostas rápidas e bem-humoradas.</div>
+          </div>
+          <div class="post-hero-stats">
+            <span class="result-badge" id="scorePill-5">0 pts</span>
+            <span class="reach-badge" id="reachPill-5">0 pessoas</span>
+          </div>
+        </div>
+        <div class="inputs-section">
+          <h3>Registro de Interações</h3>
+          <div class="inputs-grid" id="inputs-5"></div>
+        </div>
+        <div class="results-strip">
+          <div class="results-strip-top">
+            <div>
+              <div class="formula-display" id="mathFormula-5">P = (0 x 2) + (0 x 8) + (0 x 20) = <strong>0 pts</strong></div>
+              <div class="reach-calc-line" id="reachCalcStep-5">Alcance Estimado: <strong>0 pessoas</strong></div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill neutral" id="reachBar-5" style="width:0%"></div></div>
+          <div class="bar-pct" id="reachPercent-5">0% da comunidade atingida</div>
+        </div>
+        <div class="factor-info">
+          <h3>Parâmetro de Distribuição Aplicado (Baseado no Tempo Estimado de Permanência / Tempo de Tela)</h3>
+          <span class="factor-pill neutral">x13.0 &mdash; Tempo de Tela Intermediário</span>
+          <div class="factor-desc">Dinâmica de confronto entre grupos que atrai respostas frequentes, gerando um patamar intermediário de tempo de tela e amplificação.</div>
+        </div>
+      </div>
+
+
+      <!-- =========================================================
+         PÁGINA: FÓRMULA E EXPLICAÇÃO DO "FATOR DE ALCANCE"
+         ========================================================= -->
+      <div class="page" id="page-formula">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Como o Algoritmo Decide o que Você Vê?</h2>
+          <p class="page-subtitle">Compreenda a lógica matemática por trás dos pesos de engajamento e o real significado do Fator de Alcance.</p>
+        </div>
+
+        <div class="weights-grid">
+          <div class="weight-card">
+            <div class="wc-emoji">&#x2764;&#xFE0F;</div>
+            <div class="wc-name">Curtida</div>
+            <div class="wc-pts like-pts">+2 pts</div>
+            <div class="wc-desc">Ação rápida e de baixo esforço cognitivo. Demonstra aprovação passageira sem reter o usuário na plataforma.</div>
+          </div>
+          <div class="weight-card">
+            <div class="wc-emoji">&#x1F4AC;</div>
+            <div class="wc-name">Comentário</div>
+            <div class="wc-pts comment-pts">+8 pts</div>
+            <div class="wc-desc">Exige reflexão, digitação e debate. Mantém o usuário ativamente conectado e gerando tempo de tela valioso.</div>
+          </div>
+          <div class="weight-card">
+            <div class="wc-emoji">&#x1F680;</div>
+            <div class="wc-name">Compartilhamento</div>
+            <div class="wc-pts share-pts">+20 pts</div>
+            <div class="wc-desc">Fura bolhas e expande a fronteira da rede, atraindo novos públicos e multiplicando o alcance exponencialmente.</div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO ESPECÍFICA DETALHANDO O FATOR DE ALCANCE E TEMPO DE TELA -->
+        <div class="factor-explanation-box">
+          <h3>&#x1F914; O Critério Real: O Fator de Alcance Baseado no Tempo de Tela</h3>
+          <p>
+            O fator multiplicador do alcance não é um número arbitrário; ele é o <strong>multiplicador algorítmico derivado diretamente do tempo estimado de permanência (tempo de tela)</strong> que cada tipo de conteúdo consegue extrair do usuário. As plataformas medem rigorosamente quanto tempo a atenção do usuário fica aprisionada em uma publicação:
+          </p>
+          <ul>
+            <li><strong>Conteúdos Construtivos e Educativos (Fator x8 a x8.5):</strong> Geram reconhecimento rápido e saída imediata da postagem. O tempo de tela é baixo, logo o algoritmo limita a distribuição.</li>
+            <li><strong>Rivalidades e Debates Cotidianos (Fator x13):</strong> Estimulam réplicas e tréplicas moderadas, estendendo o tempo de tela de forma intermediária.</li>
+            <li><strong>Discursos de Ódio e Conflito Severo (Fator x15.5 a x16):</strong> Desencadeiam reações viscerais de defesa e indignação. Estatísticas de redes sociais comprovam que conteúdos tóxicos geram cadeias de comentários longas e prolongadas, elevando drasticamente o <strong>tempo de tela</strong>.</li>
+          </ul>
+          <p>
+            Em resumo, o critério central do algoritmo é o lucro por atenção: <strong>quanto maior o tempo de tela gerado por discussões acaloradas, maior será o Fator de Alcance aplicado</strong>, premiando o atrito em detrimento da harmonia.
+          </p>
+        </div>
+
+        <div class="formula-box">
+          <h3>&#x1F9EE; Modelagem Matemática Aplicada</h3>
+          <div class="formula-line"><span>Pontuação de Engajamento (P)</span> = (Curtidas x 2) + (Comentários x 8) + (Compartilhamentos x 20)</div>
+          <div class="formula-line"><span>Alcance Final (A)</span> = 15 + (P x Fator de Alcance baseado no Tempo de Tela) &nbsp; <small style="color:var(--text-muted)">&bull; Limitado ao teto da rede (10.000 pessoas)</small></div>
+        </div>
+
+        <div class="insight-box">
+          &#x1F4A1; <strong>Conclusão Crítica:</strong> Como os comentários valem 4 vezes mais que as curtidas e alimentam longas cadeias de discussão, o algoritmo converte automaticamente o tempo de tela gerado pelo conflito em visibilidade ampliada. Uma postagem com fator x16 atinge quase o dobro de pessoas em comparação a uma publicação colaborativa com o mesmo volume de interações iniciais.
+        </div>
+      </div>
+
+
+      <!-- =========================================================
+         PÁGINA: DASHBOARD / GRÁFICOS COMPARATIVOS
+         ========================================================= -->
+      <div class="page" id="page-charts">
+        <div class="page-header-intro">
+          <h2 class="page-title-main">Dashboard Consolidado da Comunidade</h2>
+          <p class="page-subtitle">Panorama analítico em tempo real comparando o desempenho, alcance e pontuação de todas as publicações da oficina.</p>
+        </div>
+
+        <div class="highlight-banner" id="topPostHighlight">
+          Carregue ou insira dados nas abas de postagem para visualizar o comparativo de alcance em tempo real.
+        </div>
+
+        <div class="summary-stats">
+          <div class="stat-kpi">
+            <div class="kpi-label">Alcance Total Acumulado</div>
+            <div class="kpi-value" id="kpi-totalReach">0</div>
+            <div class="kpi-sub">membros alcançados na rede</div>
+          </div>
+          <div class="stat-kpi">
+            <div class="kpi-label">Maior Pico de Alcance</div>
+            <div class="kpi-value" id="kpi-maxReach">0</div>
+            <div class="kpi-sub" id="kpi-maxPost">&mdash;</div>
+          </div>
+          <div class="stat-kpi">
+            <div class="kpi-label">Maior Pontuação de Engajamento</div>
+            <div class="kpi-value" id="kpi-maxScore">0 pts</div>
+            <div class="kpi-sub" id="kpi-maxScorePost">&mdash;</div>
+          </div>
+          <div class="stat-kpi">
+            <div class="kpi-label">Discrepância Tóxico / Amigável</div>
+            <div class="kpi-value" id="kpi-toxicReach">0x</div>
+            <div class="kpi-sub">fator médio de vantagem</div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>&#x1F4E1; Comparativo de Alcance por Publicação</h3>
+            <p>Número total de pessoas atingidas na comunidade (teto de 10.000)</p>
+            <div class="chart-wrap" style="height:240px"><canvas id="chartReach"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3>&#x1F3C6; Pontuação de Engajamento Ponderada</h3>
+            <p>Pontos obtidos com base nas interações de curtidas, comentários e compartilhamentos</p>
+            <div class="chart-wrap" style="height:240px"><canvas id="chartScore"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3>&#x1F578;&#xFE0F; Radar de Tipos de Interação</h3>
+            <p>Distribuição detalhada entre reações, debates e difusões</p>
+            <div class="chart-wrap" style="height:280px"><canvas id="chartRadar"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3>&#x1F369; Proporção do Alcance Total</h3>
+            <p>Participação percentual de cada postagem na atenção da rede</p>
+            <div class="chart-wrap" style="height:280px"><canvas id="chartDoughnut"></canvas></div>
+          </div>
+          <div class="chart-card wide">
+            <h3>&#x1F4CA; Ranking Geral de Visibilidade</h3>
+            <p>Ordenação decrescente do impacto real gerado por cada publicação</p>
+            <div class="ranking-list" id="rankingList"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /app-shell -->
+
+  <div class="toast hidden" id="toastNotification">--</div>
+
+  <script>
+    const TOTAL_USERS = 10000;
+
+    const POSTS_DATA = [
+      { id:1, shortTitle:'Gincana Cultural',    title:'Post 1: Gincana Cultural da Escola',          cls:'friendly', reachFactor:8.0  },
+      { id:2, shortTitle:'Ataque às Garotas',   title:'Post 2: Ataque às Garotas nos Esportes',      cls:'toxic',    reachFactor:15.5 },
+      { id:3, shortTitle:'Maquete Ciências',    title:'Post 3: Maquete de Ciências com Reciclados',  cls:'friendly', reachFactor:8.5  },
+      { id:4, shortTitle:'Preconceito Bolsistas',title:'Post 4: Preconceito contra Bolsistas',       cls:'toxic',    reachFactor:16.0 },
+      { id:5, shortTitle:'Manhã vs. Tarde',     title:'Post 5: Provocação Manhã vs. Tarde',          cls:'neutral',  reachFactor:13.0 }
+    ];
+
+    const STORAGE_KEY = 'redelab_oficina_feed_v2';
+
+    const CHART_COLORS = {
+      friendly: { bar:'rgba(5,150,105,0.8)',  border:'#059669' },
+      toxic:    { bar:'rgba(220,38,38,0.8)',   border:'#dc2626' },
+      neutral:  { bar:'rgba(217,119,6,0.8)',   border:'#d97706' }
+    };
+
+    const PAGE_META = {
+      post1:   { title:'Post 1: Gincana Cultural da Escola',    sub:'Lucas Gabriel (9º Ano B)',       pills:[{text:'Amigável',cls:'friendly'},{text:'Fator x8.0',cls:'friendly'}] },
+      post2:   { title:'Post 2: Ataque às Garotas nos Esportes',sub:'Thiago Alves (9º Ano A)',        pills:[{text:'Tóxico',cls:'toxic'},{text:'Fator x15.5',cls:'toxic'}] },
+      post3:   { title:'Post 3: Maquete de Ciências',           sub:'Marina Pereira (8º Ano A)',      pills:[{text:'Amigável',cls:'friendly'},{text:'Fator x8.5',cls:'friendly'}] },
+      post4:   { title:'Post 4: Preconceito contra Bolsistas',  sub:'Gabriel Fonseca (9º Ano C)',   pills:[{text:'Exclusão',cls:'toxic'},{text:'Fator x16.0',cls:'toxic'}] },
+      post5:   { title:'Post 5: Provocação Manhã vs. Tarde',    sub:'Enzo Santos (9º Ano A)',         pills:[{text:'Provocação',cls:'neutral'},{text:'Fator x13.0',cls:'neutral'}] },
+      formula: { title:'A Matemática e o Fator de Alcance',     sub:'Fundamentos teóricos e simulação algorítmica', pills:[] },
+      charts:  { title:'Dashboard e Gráficos Comparativos',     sub:'Consolidado geral da comunidade escolar', pills:[] }
+    };
+
+    /* --- Navegação de Páginas --- */
+    function switchPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      document.getElementById('nav-' + pageId).classList.add('active');
+
+      const meta = PAGE_META[pageId];
+      document.getElementById('topbar-title').textContent = meta.title;
+      document.getElementById('topbar-sub').textContent   = meta.sub;
+      document.getElementById('topbar-pills').innerHTML   =
+        meta.pills.map(p => '<span class="pill ' + p.cls + '">' + p.text + '</span>').join('');
+
+      if (pageId === 'charts') updateCharts();
+    }
+
+    /* --- Construção dos Cards de Entrada de Dados --- */
+    function buildInputCards() {
+      const fields = [
+        { key:'Likes',    label:'Curtidas',          tagCls:'like',    tag:'+2 pts',  emoji:'&#x2764;&#xFE0F;' },
+        { key:'Comments', label:'Comentários',       tagCls:'comment', tag:'+8 pts',  emoji:'&#x1F4AC;' },
+        { key:'Shares',   label:'Compartilhamentos', tagCls:'share',   tag:'+20 pts', emoji:'&#x1F680;' }
+      ];
+
+      POSTS_DATA.forEach(post => {
+        const container = document.getElementById('inputs-' + post.id);
+        if (!container) return;
+        container.innerHTML = fields.map(f => [
+          '<div class="input-card">',
+          '  <div class="input-card-header">',
+          '    <span class="input-card-label">' + f.emoji + ' ' + f.label + '</span>',
+          '    <span class="input-weight-tag ' + f.tagCls + '">' + f.tag + '</span>',
+          '  </div>',
+          '  <div class="input-controls">',
+          '    <button class="step-btn" onclick="step(' + post.id + ',\'' + f.key + '\',-1)">&minus;1</button>',
+          '    <input type="number" min="0" class="num-input" id="input' + f.key + '-' + post.id + '" value="0"',
+          '           oninput="recalc(' + post.id + ')" onchange="recalc(' + post.id + ')">',
+          '    <button class="step-btn" onclick="step(' + post.id + ',\'' + f.key + '\',1)">+1</button>',
+          '    <button class="step-btn" onclick="step(' + post.id + ',\'' + f.key + '\',10)">+10</button>',
+          '  </div>',
+          '</div>'
+        ].join('\n')).join('');
+      });
+    }
+
+    function step(postId, fieldKey, delta) {
+      const el = document.getElementById('input' + fieldKey + '-' + postId);
+      if (!el) return;
+      el.value = Math.max(0, (parseInt(el.value, 10) || 0) + delta);
+      recalc(postId);
+    }
+
+    function getVal(id) {
+      const el = document.getElementById(id);
+      return el ? Math.max(0, parseInt(el.value, 10) || 0) : 0;
+    }
+
+    function computePost(postId) {
+      const post = POSTS_DATA.find(p => p.id === postId);
+      const likes    = getVal('inputLikes-'    + postId);
+      const comments = getVal('inputComments-' + postId);
+      const shares   = getVal('inputShares-'   + postId);
+      const score = likes * 2 + comments * 8 + shares * 20;
+      const reach = score > 0 ? Math.min(TOTAL_USERS, Math.round(15 + score * post.reachFactor)) : 0;
+      const pct   = ((reach / TOTAL_USERS) * 100).toFixed(1);
+      return { likes, comments, shares, score, reach, pct };
+    }
+
+    function recalc(postId) {
+      const post = POSTS_DATA.find(p => p.id === postId);
+      const { likes, comments, shares, score, reach, pct } = computePost(postId);
+      const fmt = n => n.toLocaleString('pt-BR');
+
+      const scorePill = document.getElementById('scorePill-' + postId);
+      if (scorePill) scorePill.textContent = score + ' pts';
+
+      const reachPill = document.getElementById('reachPill-' + postId);
+      if (reachPill) reachPill.textContent = fmt(reach) + ' pessoas';
+
+      const formula = document.getElementById('mathFormula-' + postId);
+      if (formula) formula.innerHTML = 'P = (' + likes + ' x 2) + (' + comments + ' x 8) + (' + shares + ' x 20) = <strong>' + score + ' pts</strong>';
+
+      const step1 = document.getElementById('reachCalcStep-' + postId);
+      if (step1) step1.innerHTML = score > 0
+        ? 'Alcance Estimado: 15 + (' + score + ' x ' + post.reachFactor + ') = <strong>' + fmt(reach) + ' pessoas</strong>'
+        : 'Alcance Estimado: <strong>0 pessoas</strong> (sem engajamento)';
+
+      const bar = document.getElementById('reachBar-' + postId);
+      if (bar) bar.style.width = Math.min(100, pct) + '%';
+
+      const pctEl = document.getElementById('reachPercent-' + postId);
+      if (pctEl) pctEl.textContent = pct + '% da comunidade atingida';
+
+      const badge = document.getElementById('badge-post' + postId);
+      if (badge) badge.textContent = reach > 0 ? fmt(reach) : '0';
+
+      if (document.getElementById('page-charts').classList.contains('active')) {
+        updateCharts();
+      }
+    }
+
+    function recalcAll() { POSTS_DATA.forEach(p => recalc(p.id)); }
+
+    /* --- Gráficos do Dashboard --- */
+    let chartReachInst, chartScoreInst, chartRadarInst, chartDoughnutInst;
+
+    function updateCharts() {
+      const data = POSTS_DATA.map(post => {
+        const d = computePost(post.id);
+        return Object.assign({}, post, d);
+      });
+
+      const labels  = data.map(d => 'P' + d.id);
+      const reaches = data.map(d => d.reach);
+      const scores  = data.map(d => d.score);
+      const barColors = data.map(d => CHART_COLORS[d.cls].bar);
+      const borders   = data.map(d => CHART_COLORS[d.cls].border);
+
+      const chartDefaults = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#64748b', font: { size: 12, weight: '600' } }, grid: { color: '#e2e8f0' } },
+          y: { ticks: { color: '#64748b', font: { size: 12, weight: '600' } }, grid: { color: '#e2e8f0' } }
+        }
+      };
+
+      if (chartReachInst) chartReachInst.destroy();
+      chartReachInst = new Chart(document.getElementById('chartReach'), {
+        type: 'bar',
+        data: { labels, datasets: [{ data: reaches, backgroundColor: barColors, borderColor: borders, borderWidth: 1.5, borderRadius: 8 }] },
+        options: Object.assign({}, chartDefaults, { plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw.toLocaleString('pt-BR') + ' pessoas' } } } })
+      });
+
+      if (chartScoreInst) chartScoreInst.destroy();
+      chartScoreInst = new Chart(document.getElementById('chartScore'), {
+        type: 'bar',
+        data: { labels, datasets: [{ data: scores, backgroundColor: barColors, borderColor: borders, borderWidth: 1.5, borderRadius: 8 }] },
+        options: Object.assign({}, chartDefaults, { plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw + ' pts' } } } })
+      });
+
+      if (chartRadarInst) chartRadarInst.destroy();
+      chartRadarInst = new Chart(document.getElementById('chartRadar'), {
+        type: 'radar',
+        data: {
+          labels: ['Curtidas', 'Comentários', 'Compartilhamentos'],
+          datasets: data.map(d => ({
+            label: 'P' + d.id + ' (' + d.shortTitle + ')',
+            data: [d.likes, d.comments, d.shares],
+            backgroundColor: CHART_COLORS[d.cls].bar.replace('0.8', '0.15'),
+            borderColor: CHART_COLORS[d.cls].border,
+            borderWidth: 2,
+            pointBackgroundColor: CHART_COLORS[d.cls].border,
+            pointRadius: 4
+          }))
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: true, position: 'bottom', labels: { color: '#334155', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } } },
+          scales: {
+            r: {
+              ticks: { color: '#64748b', backdropColor: 'transparent', font: { size: 10 } },
+              grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' },
+              pointLabels: { color: '#1e293b', font: { size: 12, weight: '700' } }
+            }
+          }
+        }
+      });
+
+      if (chartDoughnutInst) chartDoughnutInst.destroy();
+      chartDoughnutInst = new Chart(document.getElementById('chartDoughnut'), {
+        type: 'doughnut',
+        data: {
+          labels: data.map(d => d.shortTitle),
+          datasets: [{ data: reaches, backgroundColor: barColors, borderColor: '#ffffff', borderWidth: 3 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '65%',
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: '#334155', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } },
+            tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw.toLocaleString('pt-BR') + ' pessoas' } }
+          }
+        }
+      });
+
+      /* Atualização de Indicadores KPI */
+      const totalReach = reaches.reduce((a, b) => a + b, 0);
+      const maxR = Math.max(...reaches);
+      const maxS = Math.max(...scores);
+      const maxRPost = data.find(d => d.reach === maxR);
+      const maxSPost = data.find(d => d.score === maxS);
+
+      const friendlyReach = data.filter(d => d.cls === 'friendly').reduce((a, d) => a + d.reach, 0);
+      const toxicReach    = data.filter(d => d.cls === 'toxic').reduce((a, d) => a + d.reach, 0);
+      const ratio = friendlyReach > 0 ? (toxicReach / friendlyReach).toFixed(1) : (toxicReach > 0 ? 'INF' : '1.0');
+
+      document.getElementById('kpi-totalReach').textContent    = totalReach.toLocaleString('pt-BR');
+      document.getElementById('kpi-maxReach').textContent      = maxR.toLocaleString('pt-BR');
+      document.getElementById('kpi-maxPost').textContent       = maxRPost ? maxRPost.shortTitle : 'Nenhum';
+      document.getElementById('kpi-maxScore').textContent      = maxS + ' pts';
+      document.getElementById('kpi-maxScorePost').textContent  = maxSPost ? maxSPost.shortTitle : 'Nenhum';
+      document.getElementById('kpi-toxicReach').textContent    = ratio + 'x';
+
+      const hl = document.getElementById('topPostHighlight');
+      if (maxR > 0 && maxRPost) {
+        hl.innerHTML = '&#x1F3C6; <strong>Maior Impacto de Alcance:</strong> A publicação <em>"' + maxRPost.title + '"</em> atingiu <strong>' + maxR.toLocaleString('pt-BR') + ' pessoas</strong>.' +
+          (maxRPost.reachFactor > 10 ? ' &#x1F525; <em>(Evidenciando como o fator de conflito impulsiona a distribuição na rede)</em>' : '');
+      } else {
+        hl.textContent = 'Carregue ou insira dados nas abas de postagem para visualizar o comparativo de alcance em tempo real.';
+      }
+
+      /* Geração do Ranking */
+      const sorted = data.slice().sort((a, b) => b.reach - a.reach);
+      const maxForBar = sorted[0].reach || 1;
+      document.getElementById('rankingList').innerHTML = sorted.map((d, i) => {
+        const titleShort = d.title.length > 50 ? d.title.substring(0, 50) + '...' : d.title;
+        return [
+          '<div class="ranking-item">',
+          '  <div class="ranking-idx">#' + (i + 1) + '</div>',
+          '  <div class="ranking-bar-wrap">',
+          '    <div class="ranking-label">',
+          '      <span>' + titleShort + '</span>',
+          '      <span class="rval">' + d.reach.toLocaleString('pt-BR') + ' pessoas</span>',
+          '    </div>',
+          '    <div class="bar-track"><div class="bar-fill ' + d.cls + '" style="width:' + ((d.reach / maxForBar) * 100).toFixed(1) + '%"></div></div>',
+          '  </div>',
+          '</div>'
+        ].join('\n');
+      }).join('');
+    }
+
+    /* --- Cenários e Ações Auxiliares --- */
+    function loadFromFeed(showMsg) {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) { if (showMsg) showToast('Nenhum dado salvo encontrado no armazenamento.'); return; }
+        const state = JSON.parse(raw);
+        const posts = state.posts || state;
+        POSTS_DATA.forEach(p => {
+          const post = posts[p.id] || {};
+          const likes = Number(post.likes) || 0;
+          const shares = Number(post.shares) || 0;
+          const commentsArr = Array.isArray(post.comments) ? post.comments : (post.comments && typeof post.comments === 'object' ? Object.values(post.comments) : []);
+          let total = commentsArr.length;
+          commentsArr.forEach(c => { total += (Array.isArray(c.replies) ? c.replies : Object.values(c.replies || {})).length; });
+          const sv = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
+          sv('inputLikes-' + p.id, likes);
+          sv('inputComments-' + p.id, total);
+          sv('inputShares-' + p.id, shares);
+        });
+        recalcAll();
+        if (showMsg) showToast('Dados do feed sincronizados com sucesso!');
+      } catch (e) { if (showMsg) showToast('Erro ao carregar dados do armazenamento.'); }
+    }
+
+    function setPolarizationScenario() {
+      const vals = [{l:18,c:3,s:1},{l:45,c:38,s:12},{l:22,c:4,s:1},{l:35,c:42,s:15},{l:28,c:15,s:5}];
+      POSTS_DATA.forEach((p, i) => {
+        document.getElementById('inputLikes-'    + p.id).value = vals[i].l;
+        document.getElementById('inputComments-' + p.id).value = vals[i].c;
+        document.getElementById('inputShares-'   + p.id).value = vals[i].s;
+      });
+      recalcAll();
+      showToast('Cenário de Polarização aplicado com sucesso!');
+    }
+
+    function setEqualActionsScenario() {
+      POSTS_DATA.forEach(p => {
+        document.getElementById('inputLikes-'    + p.id).value = 30;
+        document.getElementById('inputComments-' + p.id).value = 12;
+        document.getElementById('inputShares-'   + p.id).value = 4;
+      });
+      recalcAll();
+      showToast('Ações idênticas aplicadas. Observe a disparidade final de alcance!');
+    }
+
+    function resetAll() {
+      POSTS_DATA.forEach(p => {
+        const z = id => { const el = document.getElementById(id); if (el) el.value = 0; };
+        z('inputLikes-' + p.id); z('inputComments-' + p.id); z('inputShares-' + p.id);
+      });
+      recalcAll();
+      showToast('Dados reiniciados com sucesso.');
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toastNotification');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      buildInputCards();
+      loadFromFeed(false);
+      recalcAll();
+    });
+  </script>
+</body>
+</html>
